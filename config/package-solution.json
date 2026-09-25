@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "buddy-app-client-side-solution",
+    "id": "0633cdd7-714a-43bb-83a7-293a8b10f0a0",
+    "version": "1.0.0.45",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "BuddyApp description"
+      },
+      "longDescription": {
+        "default": "BuddyApp description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "buddy-app Feature",
+        "description": "The feature that activates elements of the buddy-app solution.",
+        "id": "50aef265-f6d9-411e-9873-fb50c659a81c",
+        "version": "1.0.0.45"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/buddy-app.sppkg"
+  }
+}

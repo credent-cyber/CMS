@@ -1,0 +1,1362 @@
+// Brand Colors (matching JoineeQuestionnaire module)
+$green-primary:  #00D264;
+$green-dark:     #004632;
+$green-light:    #8CFF8C;
+$green-bg:       rgba(0, 210, 100, 0.08);
+$green-hover:    #00B857;
+
+$white:    #ffffff;
+$gray-50:  #f9fafb;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+$gray-800: #1f2937;
+$gray-900: #111827;
+
+$error:   #dc2626;
+$amber:   #f59e0b;
+$bg:      #F5F2ED;
+$border:  $gray-200;
+$text:    $gray-900;
+$muted:   $gray-500;
+
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-md: 0 10px 30px rgba(0, 70, 50, 0.12);
+$shadow-lg: 0 22px 55px rgba(0, 70, 50, 0.16);
+
+@mixin focus-ring($color: $green-primary) {
+  outline: 2px solid rgba($color, 0.45);
+  outline-offset: 2px;
+}
+
+.container {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: 0.75rem;
+  background:
+    radial-gradient(circle at 5% 0%, rgba(0, 210, 100, 0.13), transparent 28rem),
+    linear-gradient(180deg, #fbfaf7 0%, $bg 100%);
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  color: $gray-900;
+
+  // Scrollbar styling (single, de-duplicated block)
+  :global(& *::-webkit-scrollbar) { width: 6px; height: 6px; }
+  :global(& *::-webkit-scrollbar-track) { background: $gray-100; border-radius: 999px; }
+  :global(& *::-webkit-scrollbar-thumb) { background: rgba(0, 210, 100, 0.5); border-radius: 999px; }
+  :global(& *::-webkit-scrollbar-thumb:hover) { background: $green-primary; }
+  :global(& *) { scrollbar-width: thin; scrollbar-color: rgba(0, 210, 100, 0.5) $gray-100; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Legacy classes retained for compatibility with older JSX references */
+/* ------------------------------------------------------------------ */
+.topDeskInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(0, 210, 100, 0.12);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(0, 210, 100, 0.08), rgba(140, 255, 140, 0.06)),
+    $white;
+  box-shadow: 0 2px 8px rgba(0, 70, 50, 0.08);
+}
+
+.deskInfoIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, $green-dark, #006b4a);
+  color: $white;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 16px rgba(0, 70, 50, 0.15);
+}
+
+.deskInfoTitle {
+  margin: 0 0 0.15rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: $green-dark;
+  letter-spacing: -0.02em;
+}
+
+.deskInfoDesc {
+  margin: 0;
+  font-size: 0.75rem;
+  color: $gray-500;
+  font-weight: 500;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: $gray-900;
+  margin: 0 0 0.75rem 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Page heading                                                        */
+/* ------------------------------------------------------------------ */
+.pageHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(0, 70, 50, 0.08);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.78)),
+    radial-gradient(circle at top right, rgba(0, 210, 100, 0.16), transparent 18rem);
+  box-shadow: $shadow-sm;
+  flex-wrap: wrap;
+}
+
+.pageHeadingLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  flex: 1 1 220px;
+}
+
+.pageHeadingIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, $green-dark, #006b4a);
+  color: $white;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 22px rgba(0, 70, 50, 0.22);
+  flex-shrink: 0;
+}
+
+.pageTitle {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.2;
+  font-weight: 800;
+  color: $green-dark;
+  letter-spacing: -0.025em;
+}
+
+.pageSubtitle {
+  margin: 0.15rem 0 0;
+  font-size: 0.78rem;
+  color: $gray-500;
+  line-height: 1.45;
+}
+
+.pageHeadingRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex: 1 1 260px;
+  min-width: 240px;
+}
+
+.headingStat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.05;
+}
+
+.headingStatVal {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: $green-dark;
+}
+
+.headingStatLbl {
+  margin-top: 0.18rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: $gray-500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.headingStatDivider {
+  width: 1px;
+  height: 28px;
+  background: $gray-200;
+}
+
+.refreshBtn {
+  border: none;
+  min-height: 34px;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  background: $green-dark;
+  color: $white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: inherit;
+  font-size: 0.74rem;
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 70, 50, 0.18);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: #006145;
+    box-shadow: 0 12px 24px rgba(0, 70, 50, 0.22);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+    box-shadow: none;
+  }
+
+  &:focus-visible { @include focus-ring; }
+}
+
+.filterBar {
+  display: none;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 420px;
+
+  :global(.MuiOutlinedInput-root) {
+    min-height: 38px;
+    border-radius: 11px;
+    background: $white;
+    font-family: "Inter", sans-serif;
+    font-size: 0.78rem;
+
+    :global(fieldset) { border-color: $gray-200 !important; }
+    &:hover :global(fieldset) { border-color: rgba(0, 210, 100, 0.8) !important; }
+    &.Mui-focused :global(fieldset) {
+      border-color: $green-dark !important;
+      border-width: 1.5px !important;
+    }
+  }
+
+  :global(.MuiInputBase-input) {
+    padding: 0.55rem 0.75rem !important;
+    font-family: "Inter", sans-serif !important;
+  }
+}
+
+.scopePill {
+  min-height: 34px;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 210, 100, 0.35);
+  background: rgba(0, 210, 100, 0.09);
+  color: $green-dark;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tabs                                                                 */
+/* ------------------------------------------------------------------ */
+.tabsWrap {
+  margin-bottom: 0.875rem;
+  border: 1px solid rgba(0, 70, 50, 0.08);
+  border-radius: 14px;
+  background: $white;
+  box-shadow: $shadow-sm;
+  padding: 0.3rem;
+}
+
+.tabs {
+  min-height: 42px !important;
+
+  :global(.MuiTabs-flexContainer) {
+    gap: 0.3rem;
+  }
+}
+
+.tabIndicator {
+  display: none !important;
+}
+
+.tabItem {
+  min-height: 42px !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+  font-family: "Inter", sans-serif !important;
+  font-weight: 750 !important;
+  font-size: 0.82rem !important;
+  color: $gray-600 !important;
+  padding: 0.5rem 0.9rem !important;
+  gap: 0.4rem;
+  transition: background 0.18s ease, color 0.18s ease !important;
+  min-width: 0 !important;
+
+  :global(.MuiTab-iconWrapper) {
+    margin: 0 !important;
+  }
+
+  &:global(.Mui-selected) {
+    color: $white !important;
+    background: linear-gradient(135deg, $green-dark, #00704c) !important;
+    box-shadow: 0 8px 18px rgba(0, 70, 50, 0.2);
+  }
+
+  &:hover:not(:global(.Mui-selected)) {
+    background: rgba(0, 210, 100, 0.08) !important;
+  }
+
+  &:focus-visible { @include focus-ring; }
+}
+
+/* ------------------------------------------------------------------ */
+/* IT Help Desk section                                                */
+/* ------------------------------------------------------------------ */
+.itHelpDeskSection {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid $gray-200;
+}
+
+.itHelpDeskHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+  color: $green-dark;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.itHelpDeskContacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+
+.itContactCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 210, 100, 0.2);
+  background: $white;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+
+  &:hover {
+    border-color: rgba(0, 210, 100, 0.55);
+    background: linear-gradient(135deg, rgba(0, 210, 100, 0.04), $white 62%);
+    box-shadow: 0 8px 18px rgba(0, 70, 50, 0.1);
+    transform: translateY(-1px);
+
+    .cardAction {
+      background: rgba(0, 70, 50, 0.1);
+      color: $green-dark;
+    }
+  }
+
+  &:focus-visible { @include focus-ring; }
+}
+
+.contactInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0.15rem;
+}
+
+.contactName {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: $gray-900;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contactEmail {
+  margin: 0;
+  font-size: 0.7rem;
+  color: $gray-500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------------------ */
+/* Location groups                                                     */
+/* ------------------------------------------------------------------ */
+.groupsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.locationCard {
+  border-radius: 16px;
+  border: 1px solid rgba(0, 70, 50, 0.09);
+  background: $white;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 210, 100, 0.42);
+    box-shadow: $shadow-md;
+  }
+}
+
+.cardHeader {
+  position: relative;
+  padding: 0.75rem 0.875rem;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: $white;
+  background:
+    radial-gradient(circle at 88% 20%, rgba(140, 255, 140, 0.25), transparent 12rem),
+    linear-gradient(135deg, $green-dark, #006145 62%, #008a5d);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    background: linear-gradient(90deg, $green-primary, $green-light);
+  }
+}
+
+.locationBadge {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  flex-shrink: 0;
+}
+
+.cardHeaderText {
+  flex: 1;
+  min-width: 0;
+
+  h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: $white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  p {
+    margin: 0.18rem 0 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.72rem;
+    font-weight: 550;
+  }
+}
+
+.statusChip {
+  flex-shrink: 0;
+  height: 24px !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: $white !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+
+  :global(.MuiChip-label) {
+    padding: 0 0.55rem !important;
+    font-size: 0.65rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase;
+  }
+}
+
+.cardBody {
+  padding: 0.75rem;
+  background:
+    linear-gradient(180deg, rgba(245, 242, 237, 0.45), rgba(255, 255, 255, 1) 9rem);
+}
+
+.ldAdminInfo {
+  margin-bottom: 0.75rem;
+  border-radius: 14px;
+  padding: 0.75rem;
+  background:
+    linear-gradient(135deg, rgba(0, 70, 50, 0.045), rgba(0, 210, 100, 0.08)),
+    $white;
+  border: 1px solid rgba(0, 210, 100, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.ldAdminContent {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.adminAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, $green-dark, #00704c);
+  color: $white;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 10px 18px rgba(0, 70, 50, 0.18);
+}
+
+.ldAdminText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+
+  span {
+    color: $gray-600;
+    font-size: 0.66rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  strong {
+    color: $green-dark;
+    font-size: 0.84rem;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  p {
+    margin: 0;
+    color: $gray-500;
+    font-size: 0.73rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.helpDeskTitle {
+  margin: 0 0 0.45rem;
+  color: $green-dark;
+  font-weight: 800;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.helpDeskUsers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.userCard {
+  width: 100%;
+  border: 1px solid $gray-200;
+  border-radius: 13px;
+  padding: 0.65rem;
+  background: $white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.035);
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: rgba(0, 210, 100, 0.55);
+    background: linear-gradient(135deg, rgba(0, 210, 100, 0.055), $white 62%);
+    box-shadow: 0 8px 18px rgba(0, 70, 50, 0.1);
+  }
+
+  &:focus-visible { @include focus-ring; }
+}
+
+.userInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.userAvatar,
+.contactAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, $green-dark, $green-primary);
+  color: $white;
+  font-size: 0.74rem;
+  font-weight: 850;
+  box-shadow: 0 8px 18px rgba(0, 70, 50, 0.18);
+}
+
+.userDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.userName {
+  color: $gray-900;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userEmail {
+  margin-top: 0.08rem;
+  color: #008a5d;
+  font-size: 0.73rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.32rem;
+
+  span {
+    max-width: 180px;
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    background: $gray-100;
+    color: $gray-500;
+    font-size: 0.64rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.cardAction {
+  min-height: 30px;
+  padding: 0.4rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(0, 70, 50, 0.07);
+  color: $green-dark;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.emailBtn {
+  color: $green-primary !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(0, 210, 100, 0.2) !important;
+  transition: all 0.18s ease !important;
+  flex-shrink: 0;
+
+  &:hover {
+    color: $green-dark !important;
+    background: rgba(0, 210, 100, 0.14) !important;
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible { @include focus-ring; }
+}
+
+.inlineEmpty {
+  border: 1px dashed $gray-200;
+  border-radius: 12px;
+  padding: 0.8rem;
+  text-align: center;
+  color: $gray-500;
+  font-size: 0.76rem;
+  font-weight: 600;
+  background: rgba(245, 242, 237, 0.52);
+}
+
+.noData {
+  min-height: 60px;
+  border: 1px dashed rgba(0, 70, 50, 0.18);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at top, rgba(0, 210, 100, 0.1), transparent 16rem),
+    rgba(255, 255, 255, 0.82);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.75rem;
+  color: $gray-500;
+
+  h3 {
+    margin: 0.65rem 0 0.25rem;
+    color: $green-dark;
+    font-size: 1rem;
+    font-weight: 850;
+  }
+
+  p {
+    margin: 0 0 0.875rem;
+    max-width: 420px;
+    color: $gray-500;
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+}
+
+.emptyIcon {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(0, 70, 50, 0.08), rgba(0, 210, 100, 0.16));
+  color: $green-dark;
+  border: 1px solid rgba(0, 210, 100, 0.26);
+}
+
+/* ------------------------------------------------------------------ */
+/* My Requests tab                                                      */
+/* ------------------------------------------------------------------ */
+.requestsTabWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.requestsToolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid rgba(0, 70, 50, 0.08);
+  border-radius: 14px;
+  background: $white;
+  box-shadow: $shadow-sm;
+}
+
+.statusSelect {
+  min-width: 170px;
+
+  :global(.MuiOutlinedInput-root) {
+    min-height: 38px;
+    border-radius: 11px;
+    background: $white;
+    font-family: "Inter", sans-serif;
+    font-size: 0.78rem;
+
+    :global(fieldset) { border-color: $gray-200 !important; }
+    &:hover :global(fieldset) { border-color: rgba(0, 210, 100, 0.8) !important; }
+    &.Mui-focused :global(fieldset) {
+      border-color: $green-dark !important;
+      border-width: 1.5px !important;
+    }
+  }
+
+  :global(.MuiSelect-select) {
+    padding: 0.55rem 0.75rem !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 0.78rem !important;
+  }
+}
+
+.requestsTableContainer {
+  border: 1px solid rgba(0, 70, 50, 0.08);
+  border-radius: 14px;
+  background: $white;
+  box-shadow: $shadow-sm;
+  max-height: 60vh;
+}
+
+.requestsTable {
+  :global(.MuiTableCell-head) {
+    background: $bg;
+    color: $green-dark;
+    font-family: "Inter", sans-serif;
+    font-size: 0.68rem;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(0, 70, 50, 0.1);
+  }
+
+  :global(.MuiTableCell-body) {
+    font-family: "Inter", sans-serif;
+    font-size: 0.78rem;
+    color: $gray-800;
+    border-bottom: 1px solid $gray-100;
+    vertical-align: top;
+  }
+
+  :global(.MuiTableRow-root:hover .MuiTableCell-body) {
+    background: rgba(0, 210, 100, 0.04);
+  }
+}
+
+.cellTitle {
+  font-weight: 750;
+  color: $gray-900;
+  max-width: 220px;
+}
+
+.cellDescription {
+  max-width: 260px;
+
+  span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: $gray-600;
+  }
+}
+
+.cellContact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 140px;
+}
+
+.cellContactName {
+  font-weight: 700;
+  color: $gray-900;
+  white-space: nowrap;
+}
+
+.cellContactEmail {
+  font-size: 0.7rem;
+  color: $gray-500;
+  white-space: nowrap;
+}
+
+.statusChipTable {
+  height: 24px !important;
+  border-radius: 999px !important;
+  font-weight: 800 !important;
+  font-size: 0.66rem !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase;
+
+  :global(.MuiChip-label) {
+    padding: 0 0.6rem !important;
+  }
+}
+
+.statusPending {
+  background: rgba(245, 158, 11, 0.14) !important;
+  color: #92600a !important;
+}
+
+.statusProgress {
+  background: rgba(37, 99, 235, 0.12) !important;
+  color: #1d4ed8 !important;
+}
+
+.statusResolved {
+  background: rgba(0, 210, 100, 0.14) !important;
+  color: $green-dark !important;
+}
+
+.statusRejected {
+  background: rgba(220, 38, 38, 0.12) !important;
+  color: $error !important;
+}
+
+.tablePagination {
+  font-family: "Inter", sans-serif;
+  border: 1px solid rgba(0, 70, 50, 0.08);
+  border-radius: 14px;
+  background: $white;
+  box-shadow: $shadow-sm;
+
+  :global(.MuiTablePagination-toolbar) {
+    min-height: 44px;
+    font-size: 0.76rem;
+  }
+
+  :global(.MuiTablePagination-selectLabel),
+  :global(.MuiTablePagination-displayedRows) {
+    font-size: 0.76rem;
+    color: $gray-600;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Legacy dialog styles (kept in case an older build path renders Dialog) */
+/* ------------------------------------------------------------------ */
+.dialog {
+  :global(.MuiDialog-paper) {
+    border-radius: 12px;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.closeButton {
+  color: rgba(255, 255, 255, 0.76);
+  transition: color 0.18s ease;
+
+  &:hover { color: $white; }
+  &:focus-visible { @include focus-ring($white); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Request drawer                                                      */
+/* ------------------------------------------------------------------ */
+.drawer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.drawerHeader {
+  position: relative;
+  padding: 0.875rem 1rem;
+  color: $white;
+  background:
+    radial-gradient(circle at 82% 12%, rgba(140, 255, 140, 0.28), transparent 12rem),
+    linear-gradient(135deg, $green-dark, #006145 70%, #008a5d);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.drawerEyebrow {
+  margin: 0 0 0.25rem;
+  color: $green-light;
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.drawerTitle {
+  margin: 0;
+  color: $white;
+  font-size: 1.02rem;
+  line-height: 1.25;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.drawerSubtitle {
+  margin: 0.25rem 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.closeBtn {
+  color: rgba(255, 255, 255, 0.78) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  transition: all 0.18s ease !important;
+  flex-shrink: 0;
+
+  &:hover {
+    color: $white !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+  }
+
+  &:disabled { opacity: 0.55; }
+  &:focus-visible { @include focus-ring($white); }
+}
+
+.drawerBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.875rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(0, 210, 100, 0.09), transparent 18rem),
+    $bg;
+}
+
+.contactPreviewCard {
+  margin-bottom: 0.875rem;
+  padding: 0.875rem;
+  border-radius: 14px;
+  background: $white;
+  border: 1px solid rgba(0, 70, 50, 0.08);
+  box-shadow: $shadow-sm;
+}
+
+.contactPreviewTop {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  span {
+    color: $gray-600;
+    font-size: 0.66rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  strong {
+    display: block;
+    margin-top: 0.1rem;
+    color: $green-dark;
+    font-size: 0.9rem;
+    font-weight: 850;
+  }
+
+  p {
+    margin: 0.1rem 0 0;
+    color: $gray-500;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+}
+
+.contactPreviewMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(0, 70, 50, 0.055);
+    color: $green-dark;
+    font-size: 0.68rem;
+    font-weight: 750;
+  }
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.formSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: $green-dark;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.requesterGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.editField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.32rem;
+  animation: fadeSlideIn 0.22s ease both;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.editLabel {
+  color: $gray-700;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.editValue {
+  min-height: 38px;
+  padding: 0.55rem 0.75rem;
+  border-radius: 11px;
+  border: 1px solid $gray-200;
+  background: rgba(255, 255, 255, 0.8);
+  color: $gray-900;
+  font-size: 0.76rem;
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.editValueMultiline {
+  min-height: 90px;
+  max-height: 160px;
+  overflow-y: auto;
+  align-items: flex-start;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+  font-weight: 600;
+  color: $gray-700;
+}
+
+.required {
+  color: $green-dark;
+  margin-left: 0.1rem;
+  font-weight: 900;
+}
+
+.select {
+  :global(.MuiOutlinedInput-root) {
+    border-radius: 11px;
+    background: $white;
+    font-family: "Inter", sans-serif;
+    font-size: 0.78rem;
+
+    :global(fieldset) { border-color: $gray-200 !important; }
+    &:hover :global(fieldset) { border-color: rgba(0, 210, 100, 0.85) !important; }
+    &.Mui-focused :global(fieldset) {
+      border-color: $green-dark !important;
+      border-width: 1.5px !important;
+    }
+  }
+
+  :global(.MuiOutlinedInput-input),
+  :global(.MuiOutlinedInput-inputMultiline) {
+    font-family: "Inter", sans-serif !important;
+    font-size: 0.78rem !important;
+  }
+
+  :global(.MuiOutlinedInput-input) { padding: 0.6rem 0.75rem !important; }
+  :global(textarea) { line-height: 1.5 !important; }
+}
+
+.fieldHint {
+  align-self: flex-end;
+  margin-top: -0.15rem;
+  color: $gray-400;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.drawerFooter {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.875rem;
+  border-top: 1px solid $gray-200;
+  background: rgba(255, 255, 255, 0.92);
+  flex-shrink: 0;
+  box-shadow: 0 -10px 26px rgba(0, 0, 0, 0.045);
+}
+
+.cancelBtn {
+  flex: 1;
+  min-height: 40px !important;
+  color: $gray-700 !important;
+  border: 1px solid $gray-200 !important;
+  border-radius: 11px !important;
+  background: $white !important;
+  text-transform: none !important;
+  font-weight: 800 !important;
+  font-size: 0.77rem !important;
+  font-family: "Inter", sans-serif !important;
+  transition: all 0.18s ease !important;
+
+  &:hover:not(:disabled) {
+    border-color: $gray-300 !important;
+    background: $gray-100 !important;
+  }
+
+  &:focus-visible { @include focus-ring; }
+}
+
+.saveBtn {
+  flex: 1.15;
+  min-height: 40px !important;
+  color: $white !important;
+  border-radius: 11px !important;
+  background: linear-gradient(135deg, $green-dark, #00704c) !important;
+  text-transform: none !important;
+  font-weight: 850 !important;
+  font-size: 0.77rem !important;
+  font-family: "Inter", sans-serif !important;
+  box-shadow: 0 10px 20px rgba(0, 70, 50, 0.2) !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: $shadow-lg !important;
+  }
+
+  &:disabled {
+    color: $gray-500 !important;
+    background: $gray-300 !important;
+    box-shadow: none !important;
+  }
+
+  &:focus-visible { @include focus-ring; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                          */
+/* ------------------------------------------------------------------ */
+@media (max-width: 900px) {
+  .pageHeading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pageHeadingRight {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .searchInput {
+    max-width: none;
+  }
+
+  .headingStat {
+    align-items: flex-start;
+  }
+
+  .filterBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .scopePill {
+    justify-content: center;
+  }
+
+  .requestsToolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .statusSelect {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .container { padding: 0.625rem; }
+
+  .groupsContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .cardHeader {
+    align-items: flex-start;
+  }
+
+  .statusChip {
+    display: none !important;
+  }
+
+  .userCard {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cardAction {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .requesterGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .drawerFooter {
+    flex-direction: column-reverse;
+  }
+
+  .tabItem {
+    flex: 1;
+    font-size: 0.74rem !important;
+    padding: 0.5rem 0.5rem !important;
+  }
+
+  .cellDescription,
+  .cellTitle {
+    max-width: 160px;
+  }
+}

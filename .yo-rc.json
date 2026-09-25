@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.17.1",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.20.0",
+    "libraryName": "buddy-app",
+    "libraryId": "0633cdd7-714a-43bb-83a7-293a8b10f0a0",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "BuddyApp",
+    "solutionShortDescription": "BuddyApp description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

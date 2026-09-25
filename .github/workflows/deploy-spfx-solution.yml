@@ -1,0 +1,118 @@
+name: Deploy Global Parcel Tracking System
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # =========================================================
+      # 1. Checkout source code
+      # =========================================================
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # =========================================================
+      # 2. Setup Node.js
+      # SPFx 1.19.x / 1.20.x => Node 18
+      # =========================================================
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: npm
+
+      # =========================================================
+      # 3. Install Dependencies
+      # =========================================================
+      - name: Install Dependencies
+        run: npm ci
+
+      # =========================================================
+      # 4. Build SPFx Solution
+      # =========================================================
+      - name: Bundle and Package
+        run: |
+          npx gulp bundle --ship
+          npx gulp package-solution --ship
+
+      # =========================================================
+      # 5. Verify generated package
+      # =========================================================
+      - name: Verify SPPKG File
+        run: |
+          echo "Checking generated package..."
+          ls -lah sharepoint/solution
+
+      # =========================================================
+      # 6. Login Microsoft 365 using Certificate
+      # =========================================================
+      - name: Login to Microsoft 365
+        uses: pnp/action-cli-login@v4
+        with:
+          CERTIFICATE_ENCODED: ${{ secrets.CERTIFICATE_ENCODED }}
+          CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
+          APP_ID: ${{ secrets.APP_ID }}
+          TENANT: ${{ secrets.TENANT_ID }}
+
+      # =========================================================
+      # DEV DEPLOYMENT
+      # master branch => AppDev
+      # =========================================================
+      - name: Deploy to AppDev
+        if: github.ref == 'refs/heads/master'
+        id: devDeploy
+        uses: pnp/action-cli-deploy@v6
+        with:
+          APP_FILE_PATH: sharepoint/solution/global-parcel-tracking-system.sppkg
+          SCOPE: sitecollection
+          SITE_COLLECTION_URL: https://credentinfotec.sharepoint.com/sites/NeulandLabs
+          SKIP_FEATURE_DEPLOYMENT: true
+          OVERWRITE: true
+
+      # =========================================================
+      # PROD DEPLOYMENT
+      # main branch => AppProd
+      # =========================================================
+      - name: Deploy to AppProd
+        if: github.ref == 'refs/heads/main'
+        id: prodDeploy
+        uses: pnp/action-cli-deploy@v6
+        with:
+          APP_FILE_PATH: sharepoint/solution/global-parcel-tracking-system.sppkg
+          SCOPE: sitecollection
+          SITE_COLLECTION_URL: https://credentinfotec.sharepoint.com/sites/IntranetPortal-Dev
+          SKIP_FEATURE_DEPLOYMENT: true
+          OVERWRITE: true
+
+      # =========================================================
+      # DEV Result
+      # =========================================================
+      - name: DEV Deployment Result
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo "======================================"
+          echo "DEV deployment completed"
+          echo "Site: AppDev"
+          echo "App ID: ${{ steps.devDeploy.outputs.APP_ID }}"
+          echo "======================================"
+
+      # =========================================================
+      # PROD Result
+      # =========================================================
+      - name: PROD Deployment Result
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "======================================"
+          echo "PROD deployment completed"
+          echo "Site: AppProd"
+          echo "App ID: ${{ steps.prodDeploy.outputs.APP_ID }}"
+          echo "======================================"

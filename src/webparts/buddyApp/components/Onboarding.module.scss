@@ -1,0 +1,1037 @@
+
+$brand-dark:     #004632;   
+$brand-green:    #00D264;   
+$brand-light:    #8CFF8C;   
+$brand-stone:    #F5F2ED;   
+$brand-stone-dk: #78736E;   
+
+$green-primary:  $brand-green;      
+$green-dark:     $brand-dark;      
+$green-light:    $brand-light;     
+$green-bg:       #e6fff0;           
+$green-hover:    darken(#00D264, 8%);
+$green-ring:     rgba(0, 210, 100, 0.18);
+$brand-red: #e04848;
+$brand-red-dark: darken($brand-red, 10%);
+
+$white:    #ffffff;
+$gray-50:  $brand-stone;  
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-700: #374151;
+$gray-900: #111827;
+
+$bg:      $gray-50;
+$card-bg: $white;
+$border:  $gray-200;
+$text:    $gray-900;
+$muted:   $gray-500;
+
+// Destructive states — brand stone instead of red (§2.1: red not in palette)
+$destructive:        $brand-stone-dk;            // #78736E
+$destructive-bg:     rgba(120, 115, 110, 0.10);
+$destructive-border: rgba(120, 115, 110, 0.35);
+$destructive-hover:  darken($brand-stone-dk, 8%);
+
+// Warning — amber kept only for informational banners (§2.3 limited use)
+$amber:    #f59e0b;
+$amber-bg: #fffbeb;
+
+// ─── Mixins ───────────────────────────────────────────────────────────────────
+
+@mixin focus-ring($color: $brand-green) {
+  outline: 2px solid $color;
+  outline-offset: 2px;
+}
+
+@mixin card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+@mixin hover-lift {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 70, 50, 0.25);   // brand dark green shadow
+  }
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+// ─── Container ───────────────────────────────────────────────────────────────
+
+.OnboardingContainer {
+  // FIX: Inter is the Neuland brand typeface (§3.1/§3.2). 'Segoe UI' removed.
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: $bg;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  // ── Custom scrollbars — brand green ──────────────────────────────────
+  :global(& *::-webkit-scrollbar)             { width: 5px; height: 5px; }
+  :global(& *::-webkit-scrollbar-track)       { background: $gray-100; border-radius: 4px; }
+  :global(& *::-webkit-scrollbar-thumb)       { background: rgba(0, 210, 100, 0.5); border-radius: 4px; }
+  :global(& *::-webkit-scrollbar-thumb:hover) { background: $brand-green; }
+  :global(& *)                                { scrollbar-width: thin; scrollbar-color: rgba(0, 210, 100, 0.5) $gray-100; }
+
+  // ── Main layout ──────────────────────────────────────────────────────
+
+  .main {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    padding-top: 0px !important;
+
+    @media (max-width: 768px) { padding: 0.5rem 0.625rem; gap: 0.4rem; }
+  }
+
+  // ─── Page Heading ────────────────────────────────────────────────────
+
+  .pageHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 0.875rem;
+    // FIX: gradient uses exact brand dark green values (§2.1)
+    background: linear-gradient(135deg, $brand-dark 0%, darken($brand-dark, 4%) 100%);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 70, 50, 0.3), 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+
+    // Summit graphic echoes (§4.1) — subtle diagonal lines
+    &::before {
+      content: '';
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      pointer-events: none;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; right: 60px;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.03);
+      pointer-events: none;
+    }
+  }
+
+  .pageHeadingLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pageHeadingIcon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    flex-shrink: 0;
+    backdrop-filter: blur(4px);
+  }
+
+  // FIX: font-weight 700 (SemiBold is 600 per §3.1 — 700 is acceptable for
+  // the smallest heading sizes where 600 can look too light at small px)
+  .pageTitle {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $white;
+    margin: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+  }
+
+  .pageSubtitle {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.72);
+    margin: 0.1rem 0 0;
+  }
+
+  .pageHeadingStats {
+    display: flex;
+    gap: 0.375rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    align-items: center;
+
+    @media (max-width: 640px) { display: none; }
+  }
+
+  .headingStat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.225rem 0.625rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    transition: background 0.18s;
+    min-width: 52px;
+
+    &:hover { background: rgba(255, 255, 255, 0.16); }
+
+    span:first-child {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: $white;
+      line-height: 1.1;
+    }
+    span:last-child {
+      font-size: 0.575rem;
+      color: rgba(255, 255, 255, 0.68);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      margin-top: 1px;
+    }
+  }
+
+  // "Total" stat — classic green accent per brand §2.2
+  .headingStatTotal {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.28);
+    span:first-child { color: $brand-light; }   // #8CFF8C — light green on dark green (AAA §2.2)
+  }
+
+  // ─── Toolbar ─────────────────────────────────────────────────────────
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.625rem;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+
+    @media (max-width: 768px) { flex-direction: column; align-items: stretch; }
+  }
+
+  // ─── Main tabs ────────────────────────────────────────────────────────
+
+  .tabs {
+    display: flex;
+    gap: 0.2rem;
+    background: $white;
+    padding: 0.175rem;
+    border-radius: 7px;
+    border: 1px solid $border;
+    flex-shrink: 0;
+    @include card-shadow;
+  }
+
+  .tab {
+    padding: 0.35rem 0.875rem;
+    border: none;
+    background: transparent;
+    border-radius: 5px;
+    font-size: 0.775rem;
+    font-weight: 500;
+    color: $muted;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+
+    &:hover:not(.tabActive) { background: $green-bg; color: $brand-dark; }
+    &:focus-visible         { @include focus-ring; }
+
+    @media (max-width: 768px) { flex: 1; padding: 0.4rem; font-size: 0.725rem; }
+  }
+
+  // FIX: active tab uses exact Classic green #00D264 (§2.1)
+  .tabActive {
+    background: $brand-green;
+    color: $white;
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(0, 210, 100, 0.35);
+  }
+
+  // ─── Toolbar right ────────────────────────────────────────────────────
+
+  .toolbarRight {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 1;
+    min-width: 0;
+    flex-wrap: nowrap;
+
+    @media (max-width: 768px) { width: 100%; flex-wrap: wrap; }
+  }
+
+  // ─── Inactive toggle ──────────────────────────────────────────────────
+
+  .inactiveToggleWrap {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.225rem 0.4rem 0.225rem 0.625rem;
+    background: $white;
+    border: 1px solid $border;
+    border-radius: 7px;
+    user-select: none;
+    flex-shrink: 0;
+    white-space: nowrap;
+    @include card-shadow;
+    transition: border-color 0.18s;
+    &:hover { border-color: $gray-300; }
+  }
+
+  .inactiveToggleLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.725rem;
+    font-weight: 500;
+    color: $muted;
+    white-space: nowrap;
+  }
+
+  // FIX: inactive badge uses brand stone instead of red (§2.1: red not in palette)
+  .inactiveBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: $destructive-bg;
+    color: $destructive;
+    font-size: 0.6rem;
+    font-weight: 700;
+    border-radius: 20px;
+    padding: 0.1rem 0.325rem;
+    min-width: 15px;
+    line-height: 1.4;
+    transition: background 0.18s, color 0.18s;
+  }
+
+  .inactiveBadgeZero {
+    background: $gray-100;
+    color: $gray-400;
+  }
+
+  // ─── Sub-view bar ─────────────────────────────────────────────────────
+
+  .subViewBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.625rem;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  .subViewTabs {
+    display: flex;
+    gap: 0;
+    background: $white;
+    border: 1px solid $border;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    @include card-shadow;
+  }
+
+  .subTab {
+    display: flex;
+    align-items: center;
+    gap: 0.275rem;
+    padding: 0.35rem 0.875rem;
+    border: none;
+    background: transparent;
+    font-size: 0.775rem;
+    font-weight: 500;
+    color: $muted;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    border-right: 1px solid $border;
+    white-space: nowrap;
+
+    &:last-child  { border-right: none; }
+    &:hover:not(.subTabActive) { background: $green-bg; color: $brand-dark; }
+    &:focus-visible { @include focus-ring; }
+  }
+
+  // FIX: active sub-tab uses exact Dark green #004632 (§2.1)
+  .subTabActive {
+    background: $brand-dark;
+    color: $white;
+    font-weight: 600;
+  }
+
+  .subTabBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 17px;
+    height: 16px;
+    padding: 0 3px;
+    border-radius: 20px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.1);
+    color: inherit;
+    line-height: 1;
+  }
+
+  .subTabBadgeActive {
+    background: rgba(255, 255, 255, 0.25);
+    color: $white;
+  }
+
+  .subViewHint {
+    font-size: 0.7rem;
+    color: $muted;
+    font-style: italic;
+    white-space: nowrap;
+    margin-left: auto;
+    @media (max-width: 640px) { display: none; }
+  }
+
+  // ─── Assign Buddy bar ─────────────────────────────────────────────────
+
+  .assignBar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: linear-gradient(135deg, $green-bg 0%, #f0fff8 100%);
+    border: 1px solid rgba(0, 210, 100, 0.35);
+    border-radius: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0, 70, 50, 0.08);
+
+    @media (max-width: 768px) { flex-direction: column; align-items: flex-start; }
+  }
+
+  .assignBarCount {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: $brand-dark;
+    white-space: nowrap;
+    background: rgba(0, 210, 100, 0.14);
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 210, 100, 0.2);
+  }
+
+  .assignBarLabel {
+    font-size: 0.775rem;
+    color: $gray-700;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .buddySearchWrap {
+    position: relative;
+    min-width: 260px;
+    flex: 1;
+    max-width: 320px;
+    @media (max-width: 768px) { width: 100%; max-width: none; }
+  }
+
+  .buddySelect {
+    width: 100%;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid $border;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-family: "Inter", sans-serif;
+    color: $text;
+    background: $white;
+    cursor: text;
+    box-sizing: border-box;
+    transition: border-color 0.18s, box-shadow 0.18s;
+
+    &::placeholder { color: $gray-400; }
+    &:hover        { border-color: rgba(0, 210, 100, 0.5); }
+    &:focus {
+      outline: none;
+      border-color: $brand-green;
+      box-shadow: 0 0 0 3px $green-ring;
+    }
+  }
+
+  .buddyDropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: $white;
+    border: 1px solid $border;
+    border-radius: 8px;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .buddyDropdownHint {
+    padding: 0.75rem 0.875rem;
+    color: $muted;
+    font-size: 0.75rem;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .buddyOption {
+    padding: 0.5rem 0.875rem;
+    cursor: pointer;
+    border-bottom: 1px solid $gray-100;
+    transition: background 0.12s ease;
+
+    &:last-child { border-bottom: none; }
+    &:hover {
+      background: $green-bg;
+      .buddyOptionName { color: $brand-dark; }
+    }
+  }
+
+  .buddyOptionName { font-size: 0.8rem; font-weight: 600; color: $text; transition: color 0.12s; }
+  .buddyOptionDept { font-size: 0.72rem; color: $gray-700; margin-top: 0.1rem; }
+  .buddyOptionMeta { font-size: 0.675rem; color: $muted; margin-top: 0.05rem; }
+
+  // Compact single-line buddy info for assign bar
+  .buddyInfoCompact {
+    display: flex;
+    align-items: center;
+    font-size: 0.72rem;
+    color: $gray-700;
+    background: $white;
+    border: 1px solid rgba(0, 210, 100, 0.3);
+    border-radius: 7px;
+    padding: 0.3rem 0.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    min-width: 0;
+    box-shadow: 0 1px 3px rgba(0, 70, 50, 0.06);
+    strong { color: $brand-dark; font-weight: 700; }
+  }
+
+  // ─── Assign / Clear buttons ───────────────────────────────────────────
+
+  .assignBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.275rem;
+    padding: 0.35rem 0.75rem;
+    // FIX: Classic green #00D264 per §2.1
+    background: $brand-green;
+    color: $white;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+    @include hover-lift;
+
+    &:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+    &:focus-visible { @include focus-ring; }
+  }
+
+  .clearBtn {
+    padding: 0.35rem 0.65rem;
+    background: $white;
+    color: $muted;
+    border: 1px solid $border;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-weight: 500;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.18s ease;
+
+    &:hover { background: $gray-100; border-color: $gray-400; color: $text; }
+    &:focus-visible { @include focus-ring($muted); }
+  }
+
+  // ─── Buddy info pill ──────────────────────────────────────────────────
+
+  .buddyInfo {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.3rem 0.7rem;
+    background: $white;
+    border: 1px solid rgba(0, 210, 100, 0.3);
+    border-radius: 7px;
+    font-size: 0.725rem;
+    color: $text;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 70, 50, 0.06);
+  }
+
+  .buddyInfoItem {
+    display: flex;
+    gap: 0.25rem;
+    white-space: nowrap;
+    align-items: center;
+    color: $gray-700;
+    strong { color: $brand-dark; font-weight: 700; }
+  }
+
+  // ─── Location-aware alerts & pills ───────────────────────────────────
+
+  // Warning alert — amber is permitted as a limited-use colour (§2.3)
+  .locationMismatchAlert {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: $amber-bg;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: 7px;
+    font-size: 0.775rem;
+    color: #92400e;
+    font-weight: 500;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(245, 158, 11, 0.1);
+    svg { color: $amber; flex-shrink: 0; }
+  }
+
+  // Location scope pill — brand green palette
+  .locationPill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    background: linear-gradient(135deg, $green-bg 0%, #f0fff8 100%);
+    border: 1.5px solid rgba(0, 210, 100, 0.4);
+    border-radius: 20px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: $brand-dark;
+    flex-shrink: 0;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0, 70, 50, 0.12);
+  }
+
+  // FIX: location info note — was off-brand blue (#e0f2fe); now uses brand
+  // stone/green tones that are in the approved palette (§2.1, §2.2)
+  .locationInfoNote {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    background: $green-bg;
+    border: 1px solid rgba(0, 210, 100, 0.3);
+    border-radius: 8px;
+    font-size: 0.775rem;
+    color: $brand-dark;
+    font-weight: 500;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 70, 50, 0.08);
+    svg    { color: $brand-green; flex-shrink: 0; margin-top: 0.15rem; }
+    strong { color: $brand-dark; font-weight: 700; }
+  }
+
+  // ─── Status info bar ──────────────────────────────────────────────────
+
+  .statusInfoBar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    padding: 0.5rem 0.75rem;
+    background: $white;
+    border: 1px solid $border;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    @include card-shadow;
+  }
+
+  // FIX: all stat card variants now use only brand palette colours (§2.1)
+  .statusStatCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    transition: transform 0.18s, box-shadow 0.18s;
+    min-width: 54px;
+    gap: 1px;
+    cursor: default;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    // Active — Classic green tint (§2.1 combo 01: dark green on white/light)
+    &[data-variant="active"] {
+      background: $green-bg;
+      border-color: rgba(0, 210, 100, 0.4);
+      .statusStatValue { color: $brand-dark; }
+      .statusStatLabel { color: darken($brand-green, 5%); }
+    }
+
+    // Inactive — Dark stone tones (§2.1: dark stone is a brand colour)
+    &[data-variant="inactive"] {
+      background: rgba(120, 115, 110, 0.08);
+      border-color: rgba(120, 115, 110, 0.3);
+      .statusStatValue { color: $brand-stone-dk; }
+      .statusStatLabel { color: darken($brand-stone-dk, 8%); }
+    }
+
+    // Buddy — Light green tint (§2.1: light green #8CFF8C)
+    &[data-variant="buddy"] {
+      background: rgba(140, 255, 140, 0.15);
+      border-color: rgba(0, 210, 100, 0.35);
+      .statusStatValue { color: $brand-dark; }
+      .statusStatLabel { color: $brand-dark; }
+    }
+
+    // FIX: Super Admin — was off-brand blue (#1d4ed8).
+    // Now uses brand dark green on a light stone background (§2.1 combo 04)
+    &[data-variant="admin"] {
+      background: rgba(0, 70, 50, 0.06);
+      border-color: rgba(0, 70, 50, 0.2);
+      .statusStatValue { color: $brand-dark; }
+      .statusStatLabel { color: $brand-dark; }
+    }
+
+    // FIX: L&D Admin — was off-brand purple/violet.
+    // Now uses Classic green on light stone tones (§2.1)
+    &[data-variant="ld"] {
+      background: rgba(0, 210, 100, 0.08);
+      border-color: rgba(0, 210, 100, 0.25);
+      .statusStatValue { color: darken($brand-green, 10%); }
+      .statusStatLabel { color: darken($brand-green, 10%); }
+    }
+
+    // Total — Dark green (brand's darkest approved colour §2.1)
+    &[data-variant="total"] {
+      background: $brand-dark;
+      border-color: darken($brand-dark, 4%);
+      .statusStatValue { color: $white; }
+      .statusStatLabel { color: rgba(255, 255, 255, 0.65); }
+    }
+  }
+
+  .statusStatCardTotal { margin-left: auto; }
+
+  // FIX: font-weight 700 max (was 800 — only SemiBold/700 in brand spec §3.1)
+  .statusStatValue {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .statusStatLabel {
+    font-size: 0.575rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .statusInfoActions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-left: 0.25rem;
+  }
+
+  .statusInfoHint {
+    font-size: 0.7rem;
+    color: darken($amber, 15%);
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: $amber-bg;
+    padding: 0.15rem 0.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    white-space: nowrap;
+    @media (max-width: 600px) { width: 100%; }
+  }
+
+  // ─── Grid card ────────────────────────────────────────────────────────
+
+  .gridCard {
+    flex: 0 1 65%;
+    height: 65%;
+    max-height: 65%;
+    min-height: 235px;
+    background: $card-bg;
+    border-radius: 10px;
+    border: 1px solid $border;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    :global(.MuiDataGrid-root)            { width: 100% !important; height: 100% !important; border: none !important; }
+    :global(.MuiDataGrid-main)            { overflow-x: auto !important; }
+    :global(.MuiDataGrid-virtualScroller) { overflow-x: auto !important; }
+
+    :global(.row-assigned) {
+      background-color: #f8fafc !important;
+      color: $gray-400 !important;
+    }
+
+    // FIX: inactive rows use brand stone tint instead of amber (§2.1)
+    :global(.row-inactive) {
+      background-color: rgba(245, 242, 237, 0.8) !important;  // light stone tint
+      opacity: 0.85;
+      &:hover { opacity: 1; }
+    }
+  }
+
+  // ─── Action buttons ───────────────────────────────────────────────────
+
+  .actionButtons { display: flex; gap: 0.2rem; align-items: center; }
+
+  .iconBtn {
+    padding: 0.225rem !important;
+    color: $brand-dark !important;
+    border-radius: 6px !important;
+    transition: background 0.15s, color 0.15s !important;
+
+    &:hover {
+      background: $green-bg !important;
+      color: $green-hover !important;
+    }
+    &:focus-visible { @include focus-ring; }
+  }
+
+  .delIconBtn {
+    padding: 0.225rem !important;
+    color: $brand-red-dark !important;
+    border-radius: 6px !important;
+    transition: background 0.15s, color 0.15s !important;
+
+    &:hover {
+      background: $brand-red-dark !important;
+      color: $amber-bg !important;
+    }
+    &:focus-visible { @include focus-ring; }
+  }
+  // ─── Drawer ───────────────────────────────────────────────────────────
+
+  .drawer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: $bg;
+  }
+
+  .drawerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 1.25rem;
+    // FIX: exact brand dark green gradient (§2.1)
+    background: linear-gradient(135deg, $brand-dark 0%, darken($brand-dark, 4%) 100%);
+    color: $white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -15px; right: -15px;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      pointer-events: none;
+    }
+  }
+
+  .drawerTitle   { font-size: 1rem; font-weight: 700; margin: 0 0 0.15rem; letter-spacing: -0.01em; position: relative; }
+  .drawerSubtitle { font-size: 0.75rem; opacity: 0.8; margin: 0; position: relative; }
+
+  .closeBtn {
+    color: $white !important;
+    padding: 0.275rem !important;
+    border-radius: 6px !important;
+    position: relative;
+    &:hover { background: rgba(255, 255, 255, 0.18) !important; }
+    &:focus-visible { @include focus-ring($white); }
+  }
+
+  .drawerBody { flex: 1; overflow-y: auto; padding: 1.25rem; }
+
+  .editForm { display: flex; flex-direction: column; gap: 1rem; }
+
+  .formRow3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.875rem; align-items: start; }
+  .formRow2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.875rem; align-items: start; }
+
+  .editField {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    animation: fadeSlideIn 0.2s ease forwards;
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .editLabel {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: $muted;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .editValue {
+    font-size: 0.825rem;
+    color: $gray-700;
+    padding: 0.425rem 0.7rem;
+    background: $gray-100;
+    border: 1px solid $border;
+    border-radius: 7px;
+    word-break: break-word;
+    line-height: 1.4;
+  }
+
+  // FIX: required asterisk — brand dark green instead of red (§2.1)
+  .required { color: $brand-dark; margin-left: 0.2rem; font-weight: 700; }
+
+  .select {
+    width: 100%;
+    padding: 0.425rem 0.7rem;
+    border: 1px solid $border;
+    border-radius: 7px;
+    font-size: 0.8rem;
+    color: $text;
+    background: $white;
+    cursor: pointer;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    font-family: "Inter", sans-serif;
+    appearance: auto;
+
+    &:hover { border-color: rgba(0, 210, 100, 0.5); }
+    &:focus {
+      outline: none;
+      border-color: $brand-green;
+      box-shadow: 0 0 0 3px $green-ring;
+    }
+  }
+
+  .drawerFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: $white;
+    border-top: 1px solid $border;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+  }
+
+  .cancelBtn {
+    padding: 0.475rem 1rem;
+    background: $white;
+    color: $muted;
+    border: 1px solid $border;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    &:hover { background: $gray-100; border-color: $gray-400; color: $text; }
+    &:focus-visible { @include focus-ring($muted); }
+  }
+
+  .saveBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.475rem 1.125rem;
+    background: $brand-dark;
+    color: $white;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    @include hover-lift;
+
+    &:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+    &:focus-visible { @include focus-ring; }
+  }
+
+  // ─── Responsive ───────────────────────────────────────────────────────
+
+  @media (max-width: 640px) {
+    .drawerHeader { padding: 0.75rem 1rem; }
+    .drawerBody   { padding: 0.875rem; }
+    .drawerFooter {
+      flex-wrap: wrap;
+      padding: 0.625rem 1rem;
+      button { flex: 1; justify-content: center; }
+    }
+    .pageHeading  { padding: 0.5rem 0.75rem; }
+    .pageTitle    { font-size: 0.85rem; }
+    .buddySearchWrap { min-width: 100%; }
+    .statusInfoBar   { gap: 0.375rem; }
+    .statusStatCard  { min-width: 48px; padding: 0.25rem 0.5rem; }
+    .statusStatValue { font-size: 0.95rem; }
+  }
+}
+
+@media (max-width: 991px) {
+  .formRow3 { grid-template-columns: 1fr; }
+  .formRow2 { grid-template-columns: 1fr; }
+}

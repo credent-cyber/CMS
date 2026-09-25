@@ -1,0 +1,616 @@
+$green-primary:  #00D264;
+$green-dark:     #004632;
+$green-light:    #8CFF8C;
+$green-bg:       #F5F2ED;
+$green-hover:    #00b85a;
+
+$stone-light:    #F5F2ED;
+$stone-dark:     #78736E;
+
+$white:    #ffffff;
+$gray-50:  #f9fafb;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-700: #374151;
+$gray-900: #111827;
+
+$red:      #dc2626;
+$red-bg:   #fef2f2;
+$red-hover:#b91c1c;
+
+$orange:    #d97706;
+$orange-bg: #fffbeb;
+
+$bg:     $stone-light;
+$border: $gray-200;
+$text:   $gray-900;
+$muted:  $stone-dark;
+
+:global {
+  @keyframes spin    { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes fadeIn  { from { opacity: 0; }              to { opacity: 1; } }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(32px); } to { opacity: 1; transform: translateX(0); } }
+}
+
+.Container {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: $bg;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.625rem 0.875rem;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  padding-top: 0px !important;
+
+  :global(& *::-webkit-scrollbar)             { width: 5px; height: 5px; }
+  :global(& *::-webkit-scrollbar-track)       { background: $stone-light; border-radius: 4px; }
+  :global(& *::-webkit-scrollbar-thumb)       { background: $green-primary; border-radius: 4px; }
+  :global(& *::-webkit-scrollbar-thumb:hover) { background: $green-hover; }
+  :global(& *)                                { scrollbar-width: thin; scrollbar-color: $green-primary $stone-light; }
+
+  .pageHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(135deg, $green-dark 0%, #003522 100%);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 70, 50, 0.3);
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+
+  .pageHeadingLeft  { display: flex; align-items: center; gap: 0.625rem; min-width: 0; }
+  .pageHeadingRight { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; flex-wrap: wrap; }
+
+  .pageHeadingIcon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    color: $white; flex-shrink: 0;
+  }
+
+  .pageTitle    { font-size: 0.9rem; font-weight: 600; color: $white; margin: 0 0 0.1rem; line-height: 1.2; font-family: 'Inter', sans-serif; }
+  .pageSubtitle { font-size: 0.68rem; font-weight: 400; color: rgba(255,255,255,0.75); margin: 0; }
+
+  .headingStat       { display: flex; flex-direction: column; align-items: center; }
+  .headingStatVal    { font-size: 1.05rem; font-weight: 700; color: $white; line-height: 1.1; font-family: 'Inter', sans-serif; }
+  .headingStatLbl    { font-size: 0.58rem; font-weight: 400; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+  .headingStatDivider { width: 1px; height: 22px; background: rgba(255,255,255,0.2); flex-shrink: 0; margin: 0 0.25rem; }
+
+  .refreshBtn {
+    width: 30px; height: 30px; border-radius: 7px;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.22);
+    color: $white; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: background 0.18s; flex-shrink: 0;
+    &:hover:not(:disabled) { background: rgba(255,255,255,0.28); }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+
+  .exportBtn {
+    display: flex; align-items: center; gap: 0.25rem;
+    padding: 0.3rem 0.7rem;
+    background: rgba(255,255,255,0.14); color: $white;
+    border: 1px solid rgba(255,255,255,0.26); border-radius: 6px;
+    font-size: 0.72rem; font-weight: 600; cursor: pointer;
+    white-space: nowrap; transition: background 0.18s; font-family: inherit;
+    &:hover { background: rgba(255,255,255,0.24); }
+  }
+
+  .bulkBtn {
+    display: flex; align-items: center; gap: 0.3rem;
+    padding: 0.35rem 0.875rem;
+    background: rgba(0, 210, 100, 0.18);
+    color: $green-light;
+    border: 1px solid rgba(140, 255, 140, 0.35);
+    border-radius: 7px;
+    font-size: 0.775rem; font-weight: 700;
+    cursor: pointer; transition: all 0.18s; font-family: inherit; flex-shrink: 0;
+    &:hover {
+      background: rgba(0, 210, 100, 0.32);
+      border-color: $green-primary;
+      color: $white;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(0,70,50,0.2);
+    }
+    &:active { transform: translateY(0); }
+  }
+
+  .addBtn {
+    display: flex; align-items: center; gap: 0.3rem;
+    padding: 0.35rem 0.875rem;
+    background: $green-primary; color: $green-dark;
+    border: none; border-radius: 7px;
+    font-size: 0.775rem; font-weight: 700;
+    cursor: pointer; transition: all 0.18s; font-family: inherit; flex-shrink: 0;
+    &:hover { background: $green-light; transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,70,50,0.2); }
+    &:active { transform: translateY(0); }
+  }
+
+  .errorBanner {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.45rem 0.75rem;
+    background: $red-bg; border: 1px solid #fca5a5; border-radius: 7px;
+    font-size: 0.75rem; color: $red; flex-shrink: 0;
+  }
+
+  .retryBtn {
+    margin-left: auto;
+    padding: 0.175rem 0.55rem;
+    background: $red; color: $white;
+    border: none; border-radius: 4px;
+    font-size: 0.68rem; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    &:hover { background: $red-hover; }
+  }
+
+  .filterBar {
+    display: flex; align-items: center; gap: 0.625rem;
+    padding: 0.5rem 0.875rem;
+    background: $white; border: 1px solid $border; border-radius: 7px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    flex-wrap: wrap; box-sizing: border-box; flex-shrink: 0;
+  }
+
+  .filterWrap  { flex: 0 0 200px; min-width: 160px; }
+
+  .toggleWrap  { display: flex; align-items: center; gap: 0.3rem; flex-shrink: 0; }
+  .toggleLabel { font-size: 0.72rem; font-weight: 500; color: $muted; white-space: nowrap; }
+
+  .recordCount {
+    font-size: 0.7rem; color: $muted; white-space: nowrap; font-weight: 500;
+    background: $stone-light; padding: 0.2rem 0.55rem; border-radius: 20px;
+    flex-shrink: 0; margin-left: auto; border: 1px solid $border;
+  }
+
+  .gridCard {
+flex: 0 1 72%;
+    height: 72%;
+    max-height: 72%;
+    min-height: 249px;
+        background: $white; border: 1px solid $border; border-radius: 8px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex; flex-direction: column;
+
+    :global(.MuiDataGrid-root)            { width: 100% !important; height: 100% !important; }
+    :global(.MuiDataGrid-main)            { overflow-x: auto !important; }
+    :global(.MuiDataGrid-virtualScroller) { overflow-x: auto !important; }
+  }
+
+  .loadingWrap {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    gap: 0.75rem; color: $muted; font-size: 0.875rem;
+    flex-direction: column; padding: 3rem; animation: fadeIn 0.2s ease;
+  }
+
+  .emptyState {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 4rem 2rem; color: $muted; animation: fadeIn 0.2s ease;
+  }
+
+  .emptyStateTitle { font-size: 1rem; font-weight: 600; color: $gray-700; margin-bottom: 0.4rem; }
+  .emptyStateDesc  { font-size: 0.825rem; color: $muted; text-align: center; }
+
+  .iconBtn {
+    padding: 0.225rem !important;
+    color: $green-dark !important; border-radius: 6px !important;
+    transition: background 0.15s, color 0.15s !important;
+    &:hover { background: rgba(0,210,100,0.12) !important; }
+  }
+
+  .iconBtnDanger {
+    padding: 0.225rem !important;
+    color: $red !important; border-radius: 6px !important;
+    transition: background 0.15s !important;
+    &:hover { background: $red-bg !important; }
+  }
+
+  .drawerBackdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0);
+    pointer-events: none;
+    transition: background 0.3s ease;
+    z-index: 1000;
+  }
+
+  .drawerBackdropOpen {
+    background: rgba(0,0,0,0.4);
+    pointer-events: auto;
+  }
+
+  .drawerPanel {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 650px;
+    max-width: 100%;
+    background: $gray-50;
+    display: flex; flex-direction: column;
+    box-shadow: -6px 0 24px rgba(0,0,0,0.15);
+    z-index: 1001;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .drawerPanelWide { width: 820px; }
+
+  .drawerPanelOpen { transform: translateX(0); animation: slideIn 0.25s ease; }
+.drawer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: $gray-50;
+}
+  .drawerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.875rem 1.25rem;
+    background: linear-gradient(135deg, $green-dark 0%, darken($green-dark, 4%) 100%);
+    color: $white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    gap: 0.625rem;
+    flex-shrink: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    min-height: 64px;
+    z-index: 1;
+  }
+
+  .drawerTitle { font-size: 0.925rem; font-weight: 600; margin: 0 0 0.1rem; color: $white; font-family: 'Inter', sans-serif; }
+  .drawerSub   { font-size: 0.7rem; font-weight: 400; opacity: 0.85; margin: 0; color: rgba(255,255,255,0.9); }
+
+  .closeIconBtn {
+    color: $white !important; padding: 0.25rem !important;
+    &:hover { background: rgba(255,255,255,0.15) !important; }
+  }
+
+  .drawerBody {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-sizing: border-box;
+  }
+
+  .formField   { display: flex; flex-direction: column; gap: 0.3rem; }
+  .formLabel   { font-size: 0.65rem; font-weight: 600; color: $stone-dark; text-transform: uppercase; letter-spacing: 0.05em; }
+  .required    { color: $green-dark; margin-left: 0.2rem; font-weight: 700; }
+  .editForm    { display: flex; flex-direction: column; gap: 0.875rem; }
+  .editField   { display: flex; flex-direction: column; gap: 0.275rem; }
+  .formRow3    { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.875rem; align-items: start; }
+  .formRow2    { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.875rem; align-items: start; }
+
+  .editLabel {
+    font-size: 0.65rem; font-weight: 700; color: $muted;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .editValue {
+    font-size: 0.8rem; color: $text;
+    padding: 0.4rem 0.65rem;
+    background: $gray-100; border: 1px solid $border; border-radius: 6px; line-height: 1.4;
+  }
+
+  input.editValue, select.editValue, textarea.editValue {
+    background: $white; cursor: text;
+    transition: border-color 0.18s, box-shadow 0.18s; appearance: auto;
+    &:hover  { border-color: $green-primary; }
+    &:focus  { outline: none; border-color: $green-dark; box-shadow: 0 0 0 3px rgba(0,210,100,0.15); }
+    &::placeholder { color: $gray-400; }
+    &:disabled { opacity: 0.65; cursor: not-allowed; background: $gray-100; }
+  }
+
+  select.editValue { cursor: pointer; &:disabled { cursor: not-allowed; } }
+
+  .formInput {
+    width: 100%; padding: 0.5rem 0.65rem;
+    border: 1px solid $border; border-radius: 7px;
+    font-size: 0.8rem; font-family: inherit; color: $text;
+    background: $white; box-sizing: border-box;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    &:hover { border-color: $green-primary; }
+    &:focus { outline: none; border-color: $green-dark; box-shadow: 0 0 0 3px rgba(0,210,100,0.15); }
+    &::placeholder { color: $gray-400; }
+  }
+
+  .formSelect {
+    width: 100%; padding: 0.5rem 0.65rem;
+    border: 1px solid $border; border-radius: 7px;
+    font-size: 0.8rem; font-family: inherit; color: $text;
+    background: $white; box-sizing: border-box; cursor: pointer; appearance: auto;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    &:hover { border-color: $green-primary; }
+    &:focus { outline: none; border-color: $green-dark; box-shadow: 0 0 0 3px rgba(0,210,100,0.15); }
+  }
+
+  .formHint { font-size: 0.67rem; color: $stone-dark; font-style: italic; line-height: 1.4; }
+
+  .previewCard {
+    background: $white; border: 1px solid rgba(0,210,100,0.35);
+    border-radius: 8px; padding: 0.75rem;
+    display: flex; flex-direction: column; gap: 0.35rem;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .previewCardHeader {
+    font-size: 0.62rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: $green-dark; padding-bottom: 0.35rem;
+    border-bottom: 1px solid rgba(0,210,100,0.2); margin-bottom: 0.1rem;
+  }
+
+  .previewRow   { display: flex; gap: 0.75rem; align-items: baseline; }
+  .previewLabel { font-size: 0.68rem; font-weight: 600; color: $stone-dark; text-transform: uppercase; letter-spacing: 0.04em; min-width: 70px; flex-shrink: 0; }
+  .previewValue { font-size: 0.8rem; color: $text; font-weight: 400; }
+
+  .drawerFooter {
+    display: flex; justify-content: flex-end; gap: 0.5rem;
+    padding: 0.75rem 1.125rem;
+    background: $white; border-top: 1px solid $border;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.05); flex-shrink: 0;
+  }
+
+  .cancelBtn {
+    padding: 0.425rem 1rem;
+    background: $white; color: $stone-dark;
+    border: 1px solid $border; border-radius: 6px;
+    font-size: 0.775rem; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all 0.18s;
+    &:hover    { background: $stone-light; border-color: $stone-dark; color: $text; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+
+  .saveBtn {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.425rem 1.125rem;
+    background: $green-primary; color: $green-dark;
+    border: none; border-radius: 6px;
+    font-size: 0.775rem; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: all 0.18s;
+    &:hover:not(:disabled) { background: $green-light; transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,70,50,0.2); }
+    &:active:not(:disabled) { transform: translateY(0); }
+    &:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    &.saveBtnError {
+      background: $red-bg; color: $red;
+      border: 1px solid rgba(220,38,38,0.3);
+      &:disabled { opacity: 1; }
+    }
+  }
+
+  .bulkInstructions {
+    background: rgba(0,70,50,0.04);
+    border: 1px solid rgba(0,70,50,0.15);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+  }
+
+  .bulkInstructionsHeader {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap;
+  }
+
+  .bulkInstructionsTitle {
+    display: flex; align-items: center; gap: 0.35rem;
+    font-size: 0.75rem; font-weight: 700; color: $green-dark;
+    letter-spacing: 0.02em; text-transform: uppercase;
+  }
+
+  .templateDownloadBtn {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.3rem 0.75rem;
+    background: $green-primary; color: $green-dark;
+    border: none; border-radius: 6px;
+    font-size: 0.72rem; font-weight: 700; cursor: pointer;
+    font-family: inherit; text-decoration: none;
+    transition: all 0.18s; flex-shrink: 0;
+    &:hover { background: $green-light; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,70,50,0.2); }
+    &:active { transform: translateY(0); }
+  }
+
+  .templateDownloadLoading {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.72rem; color: $muted; font-style: italic;
+  }
+
+  .templateDownloadMissing {
+    font-size: 0.7rem; color: $stone-dark; font-style: italic;
+  }
+
+  .bulkInstructionsList {
+    margin: 0; padding: 0 0 0 1.25rem;
+    font-size: 0.775rem; color: $gray-700; line-height: 1.7;
+    li { margin-bottom: 0.15rem; }
+    code {
+      font-size: 0.72rem; background: rgba(0,210,100,0.12);
+      color: $green-dark; padding: 0.05rem 0.35rem;
+      border-radius: 4px; font-family: 'Courier New', monospace;
+    }
+    strong { color: $green-dark; }
+  }
+
+  .bulkParsingWrap {
+    display: flex; align-items: center; gap: 0.625rem;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 210, 100, 0.06);
+    border: 1px solid rgba(0, 210, 100, 0.25);
+    border-radius: 8px;
+    font-size: 0.775rem; color: $green-dark; font-weight: 500;
+    animation: fadeIn 0.15s ease;
+  }
+
+  .bulkDropZone {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2rem 1.5rem;
+    border: 2px dashed rgba(0,210,100,0.5);
+    border-radius: 10px;
+    background: rgba(0,210,100,0.04);
+    cursor: pointer; transition: all 0.2s;
+    text-align: center;
+    &:hover {
+      border-color: $green-primary;
+      background: rgba(0,210,100,0.08);
+    }
+  }
+
+  .bulkFileName {
+    font-size: 0.825rem; font-weight: 600; color: $green-dark; margin-bottom: 0.2rem;
+    word-break: break-all; max-width: 100%;
+  }
+
+  .bulkDropHint { font-size: 0.775rem; font-weight: 500; color: $gray-700; }
+  .bulkDropSub  { font-size: 0.68rem; color: $gray-400; margin-top: 0.2rem; }
+
+  .bulkSummaryRow {
+    display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
+  }
+
+  .bulkPill {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.3rem 0.75rem; border-radius: 20px;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.01em;
+  }
+
+  .bulkPillValid     { background: rgba(0,210,100,0.14); color: $green-dark; border: 1px solid rgba(0,210,100,0.4); }
+  .bulkPillDuplicate { background: $orange-bg; color: $orange; border: 1px solid rgba(217,119,6,0.35); }
+  .bulkPillError     { background: $red-bg; color: $red; border: 1px solid rgba(220,38,38,0.3); }
+
+  .bulkTable {
+    border: 1px solid $border; border-radius: 8px; overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .bulkTableHeader {
+    display: flex; align-items: center;
+    padding: 0.45rem 0.75rem;
+    background: $green-dark;
+    font-size: 0.65rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: $white; gap: 0.5rem;
+  }
+
+  .bulkTableBody { max-height: 320px; overflow-y: auto; }
+
+  .bulkTableRow {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.45rem 0.75rem;
+    border-bottom: 1px solid $gray-100;
+    font-size: 0.775rem; color: $text;
+    transition: background 0.12s;
+    &:last-child { border-bottom: none; }
+    &:hover { background: $stone-light; }
+  }
+
+  .bulkRow_valid     { background: rgba(0,210,100,0.03); }
+  .bulkRow_duplicate { background: rgba(217,119,6,0.06); }
+  .bulkRow_error     { background: rgba(220,38,38,0.05); }
+  .bulkRow_skipped   { background: $gray-50; opacity: 0.6; }
+
+  .bulkColRow      { flex: 0 0 44px; font-size: 0.7rem; color: $muted; font-weight: 600; }
+  .bulkColOccasion { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bulkColDate     { flex: 0 0 110px; font-size: 0.72rem; }
+  .bulkColLoc      { flex: 0 0 160px; font-size: 0.72rem; }
+  .bulkColStatus   { flex: 0 0 100px; }
+
+  .bulkStatusValid {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.68rem; font-weight: 600; color: $green-dark;
+  }
+
+  .bulkStatusDuplicate {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.68rem; font-weight: 600; color: $orange;
+    cursor: help;
+  }
+
+  .bulkStatusError {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.68rem; font-weight: 600; color: $red;
+    cursor: help;
+  }
+
+  .bulkGlobalTag {
+    font-size: 0.68rem; font-weight: 600;
+    color: $green-dark; background: rgba(0,210,100,0.1);
+    padding: 0.1rem 0.4rem; border-radius: 4px;
+    border: 1px solid rgba(0,210,100,0.3);
+  }
+
+  .bulkWarningNote {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    padding: 0.6rem 0.875rem;
+    background: $orange-bg; border: 1px solid rgba(217,119,6,0.3); border-radius: 7px;
+    font-size: 0.73rem; color: $orange; line-height: 1.5;
+  }
+
+  .bulkDoneBanner {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.5rem; padding: 2.5rem 1.5rem;
+    background: rgba(0,210,100,0.06); border: 1px solid rgba(0,210,100,0.25); border-radius: 10px;
+    text-align: center; animation: fadeIn 0.3s ease;
+    flex: 1;
+  }
+
+  .bulkDoneTitle { font-size: 1rem; font-weight: 700; color: $green-dark; }
+
+  .bulkDoneStats {
+    display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
+    font-size: 0.775rem;
+  }
+
+  .bulkDoneStat     { color: $green-dark; background: rgba(0,210,100,0.12); padding: 0.2rem 0.65rem; border-radius: 20px; }
+  .bulkDoneStatWarn { color: $orange;     background: $orange-bg;           padding: 0.2rem 0.65rem; border-radius: 20px; }
+  .bulkDoneStatErr  { color: $red;        background: $red-bg;              padding: 0.2rem 0.65rem; border-radius: 20px; }
+
+  .bulkDoneArchiveNote {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.7rem; color: $green-dark; font-style: italic;
+    background: rgba(0,210,100,0.08);
+    border: 1px solid rgba(0,210,100,0.2);
+    padding: 0.25rem 0.65rem; border-radius: 20px;
+  }
+
+  .bulkUploadAnotherBtn {
+    margin-top: 0.5rem;
+    padding: 0.425rem 1.125rem;
+    background: $green-primary; color: $green-dark;
+    border: none; border-radius: 6px;
+    font-size: 0.775rem; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: all 0.18s;
+    &:hover { background: $green-light; transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,70,50,0.2); }
+    &:active { transform: translateY(0); }
+  }
+
+  // ── Responsive ───────────────────────────────────────
+  @media (max-width: 768px) {
+    padding: 0.5rem 0.625rem;
+    .filterBar       { flex-direction: column; }
+    .filterWrap      { flex: 1 1 100%; }
+    .recordCount     { margin-left: 0; }
+    .drawerPanel,
+    .drawerPanelWide { width: 100%; }
+    .formRow3        { grid-template-columns: 1fr; }
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible { outline: 2px solid $green-primary; outline-offset: 2px; }
+}

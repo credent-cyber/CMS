@@ -1,0 +1,1665 @@
+// ── Brand Variables (Neuland §2.1) ────────────────────────────────────────────
+
+// Core palette — exact brand hex values
+$brand-dark:     #004632;   // Dark green   Pantone 3435 C
+$brand-green:    #00D264;   // Classic green Pantone 2271 C
+$brand-light:    #8CFF8C;   // Light green  Pantone 2254 C
+$brand-stone:    #F5F2ED;   // Light stone  Pantone Cool Gray 1 C
+$brand-stone-dk: #78736E;   // Dark stone   Pantone 403 C
+
+// Derived — tints/aliases (must trace back to brand palette only)
+$green-primary:  $brand-green;                    // #00D264 — was #00A859 (off-brand)
+$green-dark:     $brand-dark;                     // #004632 — was #047857 (off-brand)
+$green-light:    $brand-light;                    // #8CFF8C — was #10b981 (off-brand)
+$green-bg:       #e6fff0;                         // tint of Classic green
+$green-hover:    darken(#00D264, 8%);
+$green-ring:     rgba(0, 210, 100, 0.18);
+
+// Brand red — for destructive actions only (e.g. delete, release) — use sparingly
+$brand-red: #e04848;
+$brand-red-dark: darken($brand-red, 10%);
+
+// FIX: Destructive states now use Brand red (§2.1 destructive action color)
+$destructive:        $brand-red;             // #e04848
+$destructive-bg:     rgba(224, 72, 72, 0.10);
+$destructive-border: rgba(224, 72, 72, 0.35);
+$destructive-hover:  $brand-red-dark;
+
+// Amber — limited-use only (§2.3), retained for informational banners
+$amber:    #f59e0b;
+$amber-bg: #fffbeb;
+
+$white:    #ffffff;
+$gray-50:  $brand-stone;   // #F5F2ED light stone IS the brand page bg
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-500: #6b7280;
+$gray-700: #374151;
+$gray-900: #111827;
+
+$bg:     $gray-50;
+$border: $gray-200;
+$text:   $gray-900;
+$muted:  $gray-500;
+
+// ── Keyframes ────────────────────────────────────────────────────────────────
+
+:global {
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+}
+
+
+.Container {
+  // FIX: Inter is the Neuland brand typeface (§3.1/§3.2) — 'Segoe UI' removed
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: $bg;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.625rem 0.875rem;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding-top: 0px !important;
+
+  // Scrollbars — brand Classic green
+  :global(& *::-webkit-scrollbar)             { width: 5px; height: 5px; }
+  :global(& *::-webkit-scrollbar-track)       { background: $gray-100; border-radius: 4px; }
+  :global(& *::-webkit-scrollbar-thumb)       { background: rgba(0, 210, 100, 0.5); border-radius: 4px; }
+  :global(& *::-webkit-scrollbar-thumb:hover) { background: $brand-green; }
+  :global(& *)                                { scrollbar-width: thin; scrollbar-color: rgba(0, 210, 100, 0.5) $gray-100; }
+
+  // ── Page Heading ──────────────────────────────────────────
+
+  .pageHeading {
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) auto;
+    align-items: center;
+    gap: 0.7rem 0.875rem;
+    padding: 0.875rem 1rem 1rem;
+    background:
+      radial-gradient(circle at top left, rgba(140, 255, 140, 0.18), transparent 32%),
+      linear-gradient(135deg, $brand-dark 0%, darken($brand-dark, 4%) 100%);
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0, 70, 50, 0.26);
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+
+  .pageHeadingLeft  { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+  .pageHeadingRight { display: flex; align-items: center; justify-content: flex-end; gap: 0.65rem; flex-wrap: wrap; min-width: 0; }
+
+  .pageHeadingIcon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    display: flex; align-items: center; justify-content: center;
+    color: $white; flex-shrink: 0;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .pageTitle    { font-size: 1.05rem; font-weight: 700; color: $white; margin: 0 0 0.15rem; line-height: 1.18; }
+  .pageSubtitle { font-size: 0.78rem; color: rgba(255, 255, 255, 0.78); margin: 0; }
+
+  .pageHeadingStats {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(96px, 1fr));
+    gap: 0.55rem;
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0.1rem 0 0;
+    min-width: 0;
+  }
+
+  // FIX: meetingChip-like card styling — matches BuddyQuestionnaire (§2.1)
+  .headingStat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+    padding: 0.4rem 0.75rem;
+    // background: $white;
+    background: $brand-dark;
+    border: 1px solid $border;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: inherit;
+    min-width: 82px;
+
+    &:hover {
+      // background: $gray-50;
+      background: $brand-green;
+      background: $brand-green;
+      border-color: $brand-green;
+      box-shadow: 0 2px 6px rgba(0, 210, 100, 0.15);
+    }
+  }
+
+  // .headingStat:nth-of-type(1) { background: rgba(140, 255, 140, 0.15); border-color: rgba(0, 210, 100, 0.3); }
+  // .headingStat:nth-of-type(5) { background: rgba(0, 210, 100, 0.18); border-color: rgba(0, 210, 100, 0.35); }
+  // .headingStat:nth-of-type(7) { background: rgba(255, 255, 255, 0.18); border-color: $border; }
+
+  // FIX: font-weight 700 max — was higher (brand spec §3.1 SemiBold only)
+  .headingStatVal {
+    font-size: 0.72rem;
+    font-weight: 700;
+    // color: $brand-dark;
+    color: $brand-stone;
+    line-height: 1;
+  }
+
+  // FIX: label matches meetingChipLabel from BuddyQuestionnaire (0.72rem)
+  .headingStatLbl {
+    font-size: 0.65rem;
+    font-weight: 600;
+    // color: $gray-700;
+    color: $amber-bg;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .headingStatDivider { display: none; }
+
+  @media (max-width: 1100px) {
+    .pageHeadingStats { grid-template-columns: repeat(4, minmax(104px, 1fr)); }
+  }
+
+  @media (max-width: 760px) {
+    .pageHeading {
+      grid-template-columns: 1fr;
+      padding: 0.8rem;
+    }
+    .pageHeadingRight {
+      justify-content: flex-start;
+      width: 100%;
+    }
+    .pageHeadingStats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .locationScopeBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.7rem;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    color: $white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+    animation: fadeIn 0.3s ease;
+
+    // FIX: use brand Light green #8CFF8C as the dot (§2.1 — light green on dark green WCAG AAA)
+    &::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: $brand-light;
+      flex-shrink: 0;
+    }
+  }
+
+  // ── Error banner — brand stone instead of red ─────────────
+  // FIX: red is not in the brand palette (§2.1). Using dark stone for error states.
+  .errorBanner {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.45rem 0.75rem;
+    background: $destructive-bg;
+    border: 1px solid $destructive-border;
+    border-radius: 7px;
+    font-size: 0.75rem; color: $destructive; flex-shrink: 0;
+  }
+
+  .retryBtn {
+    margin-left: auto;
+    padding: 0.175rem 0.55rem;
+    background: $destructive; color: $white;
+    border: none; border-radius: 4px;
+    font-size: 0.68rem; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    &:hover { background: $destructive-hover; }
+  }
+
+  // ── Filter bar ────────────────────────────────────────────
+
+  .filterBar {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.55rem 0.875rem;
+    background: $white;
+    border: 1px solid $border;
+    border-radius: 7px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    row-gap: 0.4rem;
+  }
+
+  .filterGroup  { display: flex; gap: 0.5rem; flex: 1; flex-wrap: wrap; min-width: 0; align-items: center; }
+  .filterWrap   { flex: 1; min-width: 145px; max-width: 200px; @media (max-width: 768px) { max-width: 100%; } }
+  .filterActions {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-shrink: 0;
+    margin-left: auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    @media (max-width: 768px) { width: 100%; margin-left: 0; justify-content: flex-start; }
+  }
+
+  .clearBtn {
+    padding: 0.3rem 0.675rem;
+    background: transparent; color: $muted;
+    border: 1px solid $border; border-radius: 6px;
+    font-size: 0.725rem; font-weight: 500; cursor: pointer;
+    transition: all 0.18s; white-space: nowrap;
+    &:hover { background: $gray-100; border-color: $gray-500; color: $text; }
+  }
+
+  .recordCount {
+    font-size: 0.7rem; color: $muted; white-space: nowrap; font-weight: 500;
+    background: $gray-100; padding: 0.2rem 0.55rem; border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  // ── Disabled filter chip ──────────────────────────────────
+
+  .filterDisabledChip {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0 0.65rem;
+    height: 40px;
+    background: $green-bg;
+    border: 1px solid rgba(0, 210, 100, 0.4);
+    border-radius: 6px;
+    cursor: not-allowed;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .filterDisabledDot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    // FIX: use Classic green #00D264
+    background: $brand-green;
+    flex-shrink: 0;
+  }
+
+  .filterDisabledLabel {
+    font-size: 0.775rem; font-weight: 600; color: $brand-dark;
+    flex: 1; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  .filterDisabledBadge {
+    font-size: 0.58rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    // FIX: dark green on light green tint (§2.2 combo 02 AAA)
+    color: $brand-dark; background: rgba(140, 255, 140, 0.3);
+    border-radius: 20px; padding: 0.1rem 0.4rem;
+    flex-shrink: 0;
+  }
+
+  // ── Active filter chips ────────────────────────────────────
+
+  .activeFilterChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.18rem 0.3rem 0.18rem 0.55rem;
+    background: $green-bg;
+    border: 1px solid rgba(0, 210, 100, 0.4);
+    border-radius: 20px;
+    white-space: nowrap;
+    max-width: 130px;
+    animation: slideIn 0.15s ease;
+
+    span { font-size: 0.68rem; font-weight: 600; color: $brand-dark; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    button {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      // FIX: Classic green tint
+      background: rgba(0, 210, 100, 0.25); border: none;
+      cursor: pointer; font-size: 0.7rem; font-weight: 700; color: $brand-dark;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1; padding: 0; flex-shrink: 0; transition: background 0.15s;
+      &:hover { background: rgba(0, 210, 100, 0.45); }
+    }
+  }
+
+  // ── DataGrid card ─────────────────────────────────────────
+
+  .gridCard {
+flex: 0 1 60%;
+    height: 60%;
+    max-height: 60%;
+    min-height: 230px;
+        background: $white; border: 1px solid $border; border-radius: 8px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: flex; flex-direction: column;
+
+    :global(.MuiDataGrid-root)            { width: 100% !important; height: 100% !important; }
+    :global(.MuiDataGrid-main)            { overflow-x: auto !important; }
+    :global(.MuiDataGrid-virtualScroller) { overflow-x: auto !important; }
+  }
+
+  // ── Action buttons ─────────────────────────────────────────
+
+  .actionBtns { max-width: 300px; display: flex; gap: 0.25rem; align-items: center; flex-wrap: nowrap; }
+
+  %actionBase {
+    display: inline-flex; align-items: center; gap: 0.2rem;
+    padding: 0.25rem 0.5rem;
+    border: none; border-radius: 20px;
+    font-size: 0.65rem; font-weight: 600;
+    cursor: pointer; transition: all 0.18s;
+    white-space: nowrap; line-height: 1.3; font-family: inherit;
+    &:hover:not(:disabled)  { transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.14); }
+    &:active:not(:disabled) { transform: translateY(0); }
+    &:disabled              { opacity: 0.45; cursor: not-allowed; }
+  }
+
+  // FIX: all action buttons use brand palette only
+  .btnView     { @extend %actionBase; background: $brand-dark;  color: $white; &:hover:not(:disabled) { background: darken($brand-dark, 8%); } }
+  .btnReassign { @extend %actionBase; background: $brand-green; color: $white; &:hover:not(:disabled) { background: $green-hover; } }
+  // FIX: btnRelease — now uses brand red for destructive actions (§2.1 destructive action color)
+  .btnRelease  {
+    @extend %actionBase;
+    background: $white;
+    color: $brand-red;
+    border: 1px solid rgba(224, 72, 72, 0.4);
+    &:hover:not(:disabled) { background: rgba(224, 72, 72, 0.08); border-color: $brand-red; }
+  }
+  .btnReleased {
+    background: $gray-100 !important; color: $muted !important;
+    border-color: $border !important; cursor: not-allowed !important;
+    transform: none !important; box-shadow: none !important;
+  }
+
+  // FIX: btnFeedback — was off-brand #10b981. Now brand Classic green.
+  .btnFeedback {
+    @extend %actionBase;
+    background: $brand-green;
+    color: $white;
+    &:hover:not(:disabled) { background: $green-hover; }
+  }
+
+  .feedbackSubmittedBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.2rem 0.5rem;
+    // FIX: Classic green badge — light green bg, dark green text (§2.2 AAA)
+    background: rgba(0, 210, 100, 0.18);
+    color: $brand-dark;
+    border: 1px solid rgba(0, 210, 100, 0.4);
+    border-radius: 20px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  // ── Drawer shell ──────────────────────────────────────────
+
+  .drawer { height: 100%; display: flex; flex-direction: column; background: $gray-50; }
+
+  .drawerHeader {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.875rem 1.25rem;
+    // FIX: exact brand dark green gradient
+    background: linear-gradient(135deg, $brand-dark 0%, darken($brand-dark, 4%) 100%);
+    color: $white; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    gap: 0.625rem; flex-shrink: 0;
+  }
+
+  .dHLeft  { display: flex; align-items: center; gap: 0.625rem; flex: 1; min-width: 0; }
+  .dHRight { display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0; }
+
+  .drawerTitle    { font-size: 0.925rem; font-weight: 700; margin: 0 0 0.15rem; color: $white; }
+  .drawerSub      { font-size: 0.7rem; opacity: 0.88; margin: 0; color: rgba(255, 255, 255, 0.9); }
+  .drawerSubtitle { font-size: 0.75rem; opacity: 0.8; margin: 0; position: relative; color: rgba(255, 255, 255, 0.9); }
+
+  .exportBtn {
+    display: flex; align-items: center; gap: 0.25rem;
+    padding: 0.25rem 0.65rem;
+    background: rgba(255, 255, 255, 0.14); color: $white;
+    border: 1px solid rgba(255, 255, 255, 0.26); border-radius: 6px;
+    font-size: 0.7rem; font-weight: 600; cursor: pointer;
+    white-space: nowrap; transition: background 0.18s; font-family: inherit;
+    &:hover { background: rgba(255, 255, 255, 0.24); }
+  }
+
+  .closeBtn {
+    color: $white !important;
+    padding: 0.275rem !important;
+    border-radius: 6px !important;
+    position: relative;
+    &:hover { background: rgba(255, 255, 255, 0.18) !important; }
+    &:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.4); outline-offset: 2px; }
+  }
+
+  .closeIconBtn { color: $white !important; padding: 0.25rem !important; &:hover { background: rgba(255, 255, 255, 0.15) !important; } }
+
+  // ── Feedback drawer overrides ─────────────────────────────
+  // FIX: was rgba(91,33,182,0.3) purple box-shadow — brand dark green used instead
+  .feedbackDrawerHeader {
+    background: linear-gradient(135deg, $brand-dark 0%, darken($brand-dark, 4%) 100%) !important;
+    box-shadow: 0 2px 8px rgba(0, 70, 50, 0.3) !important;
+  }
+
+  .feedbackHeaderIcon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex; align-items: center; justify-content: center;
+    color: $white; flex-shrink: 0;
+  }
+
+  .feedbackMilestoneBanner {
+    padding: 0.75rem 1.25rem;
+    background: $green-bg;
+    border-bottom: 1px solid rgba(0, 210, 100, 0.35);
+    flex-shrink: 0;
+  }
+
+  .feedbackMilestoneBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.75rem;
+    background: $green-bg;
+    color: $brand-dark;
+    border: 1px solid rgba(0, 210, 100, 0.4);
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .feedbackMilestoneDesc {
+    font-size: 0.75rem;
+    color: $brand-dark;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  // ── Meeting tabs bar ──────────────────────────────────────
+
+  .meetingTabsBar {
+    display: flex; overflow-x: auto;
+    background: $white; border-bottom: 1px solid $border;
+    padding: 0 0.3rem; flex-shrink: 0;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  .meetingTab {
+    display: flex; align-items: center; gap: 0.25rem;
+    padding: 0.5rem 0.7rem;
+    border: none; background: transparent;
+    font-size: 0.7rem; font-weight: 500; color: $muted;
+    cursor: pointer; transition: all 0.18s;
+    white-space: nowrap; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; font-family: inherit;
+    &:hover:not(.meetingTabActive):not(.meetingTabLocked) { color: $text; background: $green-bg; }
+  }
+
+  // FIX: active tab uses exact brand values
+  .meetingTabActive { color: $brand-dark; font-weight: 700; border-bottom-color: $brand-green; }
+  .meetingTabLocked { color: #9ca3af; cursor: default; opacity: 0.7; }
+
+  // ── Drawer body ───────────────────────────────────────────
+
+  .drawerBody {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-sizing: border-box;
+  }
+
+  // ── Stats strip ───────────────────────────────────────────
+
+  .statsStrip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+  .statBox { display: flex; flex-direction: column; align-items: center; padding: 0.55rem 0.5rem; border-radius: 7px; border: 1px solid transparent; }
+  .statCompleted  { background: $green-bg; border-color: rgba(0, 210, 100, 0.4); }
+  .statInProgress { background: $amber-bg; border-color: rgba(245, 158, 11, 0.35); }
+  // FIX: statSkipped — was red (#fee2e2/#fca5a5). Brand stone used (§2.1: red not in palette)
+  .statSkipped    { background: $destructive-bg; border-color: $destructive-border; }
+
+  .statNum { font-size: 1.3rem; font-weight: 700; line-height: 1; color: $gray-900; }
+  .statLbl { font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: $muted; margin-top: 0.175rem; }
+
+  // ── Info strip ────────────────────────────────────────────
+
+  .infoStrip {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;
+    background: $white; border: 1px solid $border; border-radius: 7px;
+    padding: 0.625rem 0.875rem;
+  }
+
+  .infoGroup { display: flex; flex-direction: column; gap: 0.15rem; }
+  .infoLabel { font-size: 0.6rem; font-weight: 700; color: $muted; text-transform: uppercase; letter-spacing: 0.05em; }
+  .infoValue { font-size: 0.775rem; color: $text; font-weight: 500; word-break: break-word; }
+
+  // ── Meeting cards grid (Summary) ──────────────────────────
+
+  .meetingCardsGrid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.625rem;
+    @media (max-width: 500px) { grid-template-columns: 1fr 1fr; }
+  }
+
+  .meetingCard {
+    background: $white; border: 1px solid $border; border-radius: 8px;
+    padding: 0.625rem;
+    display: flex; flex-direction: column; gap: 0.4rem;
+    transition: box-shadow 0.18s;
+    cursor: pointer;
+    &:hover { box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); }
+  }
+
+  .meetingCompleted  { border-color: rgba(0, 210, 100, 0.45); background: $green-bg; }
+  .meetingPending    { border-color: $gray-200; background: $gray-50; }
+  .meetingSkipped    { border-color: $destructive-border; background: $destructive-bg; }
+  .meetingCardLocked {
+    opacity: 0.55;
+    background: $gray-100 !important;
+    border-color: $border !important;
+    cursor: pointer !important;
+    position: relative;
+  }
+
+  .mcHeader { display: flex; align-items: center; justify-content: space-between; }
+  .mcLabel  { font-size: 0.72rem; font-weight: 700; color: $brand-dark; }
+  .mcDates  { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.2rem; }
+  .mcDateRow { display: flex; justify-content: space-between; align-items: center; }
+  .mcDateLbl { font-size: 0.6rem; color: $muted; font-weight: 500; text-transform: uppercase; }
+  .mcDateVal { font-size: 0.675rem; color: $text; font-weight: 600; }
+
+  .mcQaBadgeRow { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; }
+
+  .mcQaBadge, .mcDraftBadge {
+    display: inline-flex; align-items: center; gap: 0.28rem;
+    padding: 0.18rem 0.45rem; border-radius: 999px;
+    font-size: 0.64rem; font-weight: 700; line-height: 1; width: fit-content;
+  }
+
+  .mcQaBadge    { background: $green-bg; color: $brand-dark; border: 1px solid rgba(0, 210, 100, 0.4); }
+  .mcDraftBadge { background: $amber-bg; color: #92400e; border: 1px solid rgba(245, 158, 11, 0.35); }
+
+
+  .singleMeetingDetail {
+    background: $white; border: 1px solid $border; border-radius: 8px;
+    padding: 0.875rem;
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+
+  .smdRow   { display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid $gray-100; &:last-child { border-bottom: none; padding-bottom: 0; } }
+  .smdLabel { font-size: 0.7rem; font-weight: 600; color: $muted; text-transform: uppercase; letter-spacing: 0.04em; }
+  .smdValue { font-size: 0.8rem; color: $text; font-weight: 600; }
+
+
+  .lockedBanner {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    padding: 1rem;
+    background: $gray-100; border: 1px dashed $gray-200; border-radius: 8px;
+    color: $muted; animation: fadeIn 0.2s ease;
+  }
+
+  .lockedBannerTitle { font-size: 0.8rem; font-weight: 700; color: $gray-700; margin-bottom: 0.2rem; }
+  .lockedBannerDesc  { font-size: 0.72rem; color: $muted; line-height: 1.5; }
+
+
+  .qaLoadingWrap { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: $muted; padding: 0.75rem 0; }
+
+  .qaSection { display: flex; flex-direction: column; gap: 0.75rem; animation: fadeIn 0.2s ease; }
+
+  .qaSectionHeader {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.775rem; font-weight: 700; color: $brand-dark;
+    padding-bottom: 0.5rem; border-bottom: 2px solid $green-bg;
+  }
+
+  .qaList { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .qaItem {
+    background: $gray-50; border: 1px solid $border; border-radius: 8px;
+    padding: 0.75rem; display: flex; flex-direction: column; gap: 0.45rem;
+    transition: border-color 0.18s;
+    &:hover { border-color: $brand-green; }
+  }
+
+  .qaItemAnswered { background: $green-bg; border-color: rgba(0, 210, 100, 0.4); &:hover { border-color: $brand-green; } }
+  .qaItemDraft    { background: $amber-bg; border-color: rgba(245, 158, 11, 0.35); &:hover { border-color: $amber; } }
+
+  .qaQuestion {
+    display: flex; align-items: flex-start; gap: 0.4rem;
+    font-size: 0.775rem; color: $text; font-weight: 600; line-height: 1.5;
+  }
+
+  // FIX: font-weight 700 max (was 800)
+  .qaQNum  { color: $brand-dark; font-weight: 700; flex-shrink: 0; }
+  .qaQText { flex: 1; }
+
+  .qaAnswerInput {
+    width: 100%; padding: 0.5rem 0.65rem;
+    border: 1px solid $border; border-radius: 6px;
+    font-size: 0.775rem; font-family: "Inter", sans-serif; color: $text;
+    background: $white; resize: vertical;
+    min-height: 64px; box-sizing: border-box;
+    transition: border-color 0.18s, box-shadow 0.18s; line-height: 1.5;
+    &:hover  { border-color: $brand-green; }
+    &:focus  { outline: none; border-color: $brand-green; box-shadow: 0 0 0 2px $green-ring; }
+    &::placeholder { color: #9ca3af; }
+  }
+
+  .qaFieldError {
+    color: #b91c1c;
+    font-size: 0.725rem;
+    margin-top: 0.4rem;
+    line-height: 1.4;
+  }
+
+  .qaAnswerReadonly {
+    background: $gray-50 !important; border-color: $gray-200 !important;
+    color: $gray-700 !important; cursor: default !important;
+    resize: none !important; box-shadow: none !important;
+  }
+
+  // ── Complete meeting CTA ──────────────────────────────────
+
+  .completeCTAWrap { display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.5rem; border-top: 1px solid $gray-100; }
+
+  .completeCTAHint {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.725rem; color: darken($amber, 20%);
+    background: $amber-bg; border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 6px; padding: 0.4rem 0.65rem;
+  }
+
+  .completeMeetingBtn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+    padding: 0.55rem 1.25rem;
+    background: $brand-dark; color: $white;
+    border: none; border-radius: 7px;
+    font-size: 0.8rem; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: all 0.18s;
+    align-self: flex-end;
+    &:hover:not(:disabled)  { background: darken($brand-dark, 8%); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 70, 50, 0.3); }
+    &:active:not(:disabled) { transform: translateY(0); }
+    &:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+  }
+
+  .completedBanner {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    background: $green-bg; border: 1px solid rgba(0, 210, 100, 0.4); border-radius: 7px;
+    font-size: 0.775rem; font-weight: 600; color: $brand-dark;
+    animation: slideIn 0.2s ease;
+  }
+
+  .noQaBanner {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem;
+    background: $gray-100; border: 1px dashed $border; border-radius: 7px;
+    font-size: 0.75rem; color: $muted;
+  }
+
+  // ── Edit form ─────────────────────────────────────────────
+
+  .editForm  { display: flex; flex-direction: column; gap: 0.875rem; }
+  .editField { display: flex; flex-direction: column; gap: 0.275rem; }
+
+  .formRow3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.875rem; align-items: start; }
+  .formRow2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.875rem; align-items: start; }
+
+  .editLabel {
+    font-size: 0.65rem; font-weight: 700; color: $muted;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .editValue {
+    font-size: 0.8rem; color: $text;
+    padding: 0.4rem 0.65rem;
+    background: $gray-100; border: 1px solid $border; border-radius: 6px; line-height: 1.4;
+  }
+
+  .editValueHighlight { background: $green-bg; border-color: rgba(0, 210, 100, 0.4); color: $brand-dark; font-weight: 600; }
+  // FIX: required marker — brand dark green instead of red (§2.1)
+  .required           { color: $brand-dark; margin-left: 0.2rem; font-weight: 700; }
+
+  // FIX: locationScopeNotice — was off-brand blue (#eff6ff/#1d4ed8/#bfdbfe).
+  // Now uses brand green tones — fully compliant with §2.1 and §2.2 combo 04.
+  .locationScopeNotice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    padding: 0.5rem 0.75rem;
+    background: $green-bg;
+    border: 1px solid rgba(0, 210, 100, 0.3);
+    border-radius: 7px;
+    font-size: 0.75rem;
+    color: $brand-dark;
+    line-height: 1.5;
+    animation: slideIn 0.2s ease;
+    strong { color: $brand-dark; font-weight: 700; }
+  }
+
+  // ── Buddy search ──────────────────────────────────────────
+
+  .searchBuddyInput {
+    width: 100%; padding: 0.4rem 0.65rem;
+    border: 1px solid $border; border-radius: 6px;
+    font-size: 0.8rem; font-family: "Inter", sans-serif; color: $text;
+    background: $white; box-sizing: border-box; transition: border-color 0.18s;
+    &:hover { border-color: $brand-green; }
+    &:focus { outline: none; border-color: $brand-green; box-shadow: 0 0 0 2px $green-ring; }
+    &::placeholder { color: #9ca3af; }
+  }
+
+  .buddyDropdown {
+    position: absolute; top: calc(100% + 2px); left: 0; right: 0;
+    background: $white; border: 1px solid $border; border-radius: 6px;
+    max-height: 200px; overflow-y: auto; z-index: 1000;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .buddyOption {
+    padding: 0.45rem 0.65rem; cursor: pointer;
+    border-bottom: 1px solid $gray-100; transition: background 0.15s;
+    &:last-child { border-bottom: none; }
+    &:hover { background: $green-bg; }
+  }
+
+  .buddyOptionName { font-size: 0.8rem; font-weight: 600; color: $text; }
+  .buddyOptionMeta { font-size: 0.7rem; color: $muted; margin-top: 0.1rem; }
+
+  // ── Reassign preview ──────────────────────────────────────
+
+  .reassignPreview {
+    display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+    padding: 0.75rem;
+    background: $white; border: 1px dashed $brand-green; border-radius: 7px;
+  }
+
+  .reassignFrom, .reassignTo { display: flex; flex-direction: column; align-items: center; gap: 0.175rem; }
+  .reassignChipLabel { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: $muted; }
+  .reassignName { font-size: 0.775rem; font-weight: 600; color: $brand-dark; background: $green-bg; padding: 0.175rem 0.625rem; border-radius: 20px; }
+
+  // ── Drawer footer ─────────────────────────────────────────
+
+  .drawerFooter {
+    display: flex; justify-content: flex-end; gap: 0.5rem;
+    padding: 0.75rem 1.125rem;
+    background: $white; border-top: 1px solid $border;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05); flex-shrink: 0;
+  }
+
+  .cancelBtn {
+    padding: 0.425rem 1rem;
+    background: $white; color: $muted;
+    border: 1px solid $border; border-radius: 6px;
+    font-size: 0.775rem; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all 0.18s;
+    &:hover { background: $gray-100; border-color: $gray-500; color: $text; }
+  }
+
+  // FIX: saveBtn uses Classic green #00D264 (§2.1)
+  .saveBtn {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.425rem 1.125rem;
+    background: $brand-green; color: $white;
+    border: none; border-radius: 6px;
+    font-size: 0.775rem; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all 0.18s;
+    &:hover:not(:disabled)  { background: $green-hover; transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0, 70, 50, 0.3); }
+    &:active:not(:disabled) { transform: translateY(0); }
+    &:disabled              { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  }
+
+  // FIX: saveBtnDanger — now uses brand red for destructive actions (§2.1 destructive action color)
+  .saveBtnDanger {
+    background: $brand-red !important;
+    color: $white !important;
+    &:hover:not(:disabled) { background: $brand-red-dark !important; box-shadow: 0 3px 10px rgba(224, 72, 72, 0.3) !important; }
+  }
+
+  // ── Toggle row ────────────────────────────────────────────
+
+  .toggleRow { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.75rem; background: $gray-100; border: 1px solid $border; border-radius: 6px; }
+  .toggleLabel   { font-size: 0.775rem; font-weight: 500; color: $muted; transition: color 0.18s; }
+  .toggleLabelOn { color: $brand-dark; font-weight: 700; }
+
+  .confirmBanner {
+    display: flex; align-items: flex-start; gap: 0.55rem;
+    padding: 0.625rem 0.8rem; border-radius: 7px;
+    font-size: 0.775rem; line-height: 1.5; font-weight: 500;
+    border: 1px solid transparent; animation: slideIn 0.2s ease;
+  }
+
+  // FIX: confirmBannerDanger — brand stone instead of red (§2.1)
+  .confirmBannerDanger  { background: $destructive-bg; border-color: $destructive-border; color: darken($brand-stone-dk, 10%); }
+  .confirmBannerSuccess { background: $green-bg; border-color: rgba(0, 210, 100, 0.4); color: $brand-dark; }
+
+  // ── Date edit block ───────────────────────────────────────
+
+  .dateEditBlock {
+    display: flex; flex-direction: column; gap: 0.75rem;
+    padding: 0.875rem;
+    border: 1px solid $border; border-radius: 8px; background: $gray-50;
+  }
+
+  .dateEditHeader {
+    display: flex; align-items: center; gap: 0.45rem;
+    font-size: 0.8rem; font-weight: 700; color: $brand-dark;
+  }
+
+  .dateEditFields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    @media (max-width: 600px) { grid-template-columns: 1fr; }
+  }
+
+  .dateEditField  { display: flex; flex-direction: column; gap: 0.35rem; }
+  .dateEditLabel  { font-size: 0.72rem; font-weight: 700; color: $muted; text-transform: uppercase; letter-spacing: 0.04em; }
+  .dateEditActions { display: flex; justify-content: flex-end; gap: 0.5rem; flex-wrap: wrap; }
+
+  .dateInput {
+    width: 100%; padding: 0.55rem 0.65rem;
+    border: 1px solid $border; border-radius: 7px;
+    background: $white; color: $text;
+    font-size: 0.8rem; font-family: "Inter", sans-serif; box-sizing: border-box;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    &:hover { border-color: $brand-green; }
+    &:focus { border-color: $brand-green; box-shadow: 0 0 0 3px $green-ring; outline: none; }
+  }
+
+  // FIX: dateInputError — brand stone border instead of red (§2.1)
+  .dateInputError {
+    border-color: $destructive !important;
+    box-shadow: 0 0 0 3px rgba(120, 115, 110, 0.15) !important;
+    &:focus { border-color: $destructive !important; box-shadow: 0 0 0 3px rgba(120, 115, 110, 0.15) !important; }
+  }
+
+  // FIX: dateErrorBanner — brand stone instead of red (§2.1)
+  .dateErrorBanner {
+    display: flex; align-items: flex-start; gap: 0.4rem;
+    padding: 0.45rem 0.65rem;
+    background: $destructive-bg; border: 1px solid $destructive-border; border-radius: 6px;
+    font-size: 0.72rem; color: $destructive; font-weight: 500; line-height: 1.5;
+    animation: slideIn 0.18s ease;
+  }
+
+  .reasonInput {
+    width: 100%; padding: 0.5rem 0.65rem;
+    border: 1px solid $border; border-radius: 7px;
+    font-size: 0.8rem; font-family: "Inter", sans-serif; color: $text;
+    background: $white; resize: vertical; min-height: 72px;
+    box-sizing: border-box; line-height: 1.5;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    &:hover { border-color: $brand-green; }
+    &:focus { border-color: $brand-green; box-shadow: 0 0 0 3px $green-ring; outline: none; }
+    &::placeholder { color: #9ca3af; }
+  }
+
+  // FIX: reasonInputError — brand stone instead of red
+  .reasonInputError { border-color: $destructive !important; box-shadow: 0 0 0 3px rgba(120, 115, 110, 0.15) !important; }
+
+  .reasonHint { font-size: 0.68rem; color: darken($amber, 20%); font-style: italic; }
+
+  .saveDatesBtn {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    background: $brand-dark; color: $white;
+    border: none; border-radius: 7px;
+    font-size: 0.78rem; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: all 0.18s;
+    &:hover:not(:disabled) { background: darken($brand-dark, 8%); transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0, 70, 50, 0.24); }
+    &:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+  }
+
+  .smdDateCell { display: flex; align-items: center; gap: 0.45rem; }
+
+  .editDatesBtn {
+    width: 26px; height: 26px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid $border; border-radius: 6px;
+    background: $white; color: $brand-dark;
+    cursor: pointer; transition: all 0.18s; flex-shrink: 0;
+    &:hover { background: $green-bg; border-color: $brand-green; }
+  }
+
+  .draftBadge {
+    margin-left: auto;
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.16rem 0.42rem; border-radius: 999px;
+    background: $amber-bg; color: #92400e; border: 1px solid rgba(245, 158, 11, 0.35);
+    font-size: 0.62rem; font-weight: 700; line-height: 1; flex-shrink: 0;
+  }
+
+  .ctaBtnGroup { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+
+  .saveDraftBtn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+    padding: 0.55rem 1rem;
+    background: $white; color: #92400e;
+    border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 7px;
+    font-size: 0.78rem; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: all 0.18s;
+    &:hover:not(:disabled) { background: $amber-bg; border-color: $amber; transform: translateY(-1px); }
+    &:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+  }
+
+  // ── Meeting history section ────────────────────────────────
+
+  .historySection {
+    margin-top: 1.2rem;
+    background: $green-bg;
+    border: 1px solid rgba(0, 210, 100, 0.35);
+    border-radius: 7px;
+    overflow: hidden;
+  }
+
+  .historySectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+    background: linear-gradient(135deg, $brand-dark 0%, $brand-green 100%);
+    border-radius: 6px 6px 0 0;
+    &:hover { opacity: 0.95; }
+
+    .historySectionTitle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: $white;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      flex: 1;
+    }
+
+    .historyToggleIcon {
+      color: $white;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+      &.collapsed { transform: rotate(-90deg); }
+    }
+  }
+
+  .historyTimeline {
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    animation: slideIn 0.2s ease;
+  }
+
+  .historyTimelineItem {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid $gray-100;
+    position: relative;
+    &:last-child { border-bottom: none; }
+
+    .historyTimelineMarker {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 0.125rem;
+      flex-shrink: 0;
+
+      .historyTimelineDot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: $brand-green;
+        border: 2px solid $white;
+        box-shadow: 0 0 0 2px $brand-green;
+      }
+    }
+
+    .historyTimelineContent {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      min-width: 0;
+    }
+  }
+
+  .historyItemHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .historyActionBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.55rem;
+    background: $green-bg;
+    color: $brand-dark;
+    border: 1px solid rgba(0, 210, 100, 0.4);
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+
+  .historyItemMeta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+    color: $muted;
+    flex-shrink: 0;
+    .historyMetaSeparator { color: $gray-200; }
+  }
+
+  .historyItemDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    color: $gray-700;
+
+    .historyDetailRow {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+
+      .historyDetailLabel { font-weight: 600; color: $muted; min-width: 110px; }
+      .historyDetailValue { font-weight: 500; color: $text; flex: 1; word-break: break-word; }
+      // FIX: historyDetailOld — was red #dc2626. Brand stone used (§2.1)
+      .historyDetailOld   { color: $brand-stone-dk; text-decoration: line-through; opacity: 0.85; }
+      .historyDetailNew   { color: $brand-dark; font-weight: 600; }
+    }
+  }
+
+  .historyRecalcDates {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: $green-bg;
+    border-left: 3px solid $brand-green;
+    border-radius: 4px;
+    font-size: 0.68rem;
+
+    .historyRecalcTitle {
+      font-weight: 700;
+      color: $brand-dark;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .historyRecalcGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.5rem;
+
+      .historyRecalcDate {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        padding: 0.35rem;
+        background: $white;
+        border: 1px solid rgba(0, 210, 100, 0.35);
+        border-radius: 4px;
+
+        .historyRecalcDateMeeting { font-weight: 600; color: $brand-dark; font-size: 0.65rem; text-transform: uppercase; }
+        .historyRecalcDateValue   { font-weight: 500; color: $text; }
+      }
+    }
+  }
+
+  // ── Feedback drawer (NJ milestone feedback) ───────────────
+
+  .feedbackQuestionList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .feedbackQuestionItem {
+    background: $white;
+    border: 1px solid $border;
+    border-radius: 8px;
+    padding: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    // FIX: hover border uses brand green, not purple
+    &:hover { border-color: $brand-green; box-shadow: 0 2px 8px rgba(0, 70, 50, 0.08); }
+  }
+
+  .feedbackQHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .feedbackQNum {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: $brand-dark;
+    background: $green-bg;
+    padding: 0.1rem 0.42rem;
+    border-radius: 20px;
+    flex-shrink: 0;
+    line-height: 1.6;
+  }
+
+  .feedbackQText { font-size: 0.8rem; font-weight: 600; color: $text; flex: 1; }
+
+  // FIX: required marker — brand dark green instead of red (§2.1)
+  .feedbackQRequired { color: $brand-dark; margin-left: 0.2rem; font-weight: 700; }
+
+  // Yes / No
+  .feedbackYesNo { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  .feedbackYesNoBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 1.1rem;
+    border: 2px solid $border;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: $white;
+    color: $muted;
+    font-family: inherit;
+    transition: all 0.18s;
+    &:hover { border-color: $brand-green; color: $brand-dark; background: $green-bg; }
+  }
+
+  .feedbackYesNoBtnActive {
+    border-color: $brand-green !important;
+    background: $green-bg !important;
+    color: $brand-dark !important;
+    box-shadow: 0 0 0 3px $green-ring;
+  }
+
+  .feedbackYesNoBtnYes {
+    &:hover { border-color: $brand-green; color: $brand-dark; background: $green-bg; }
+    &.feedbackYesNoBtnActive {
+      background: rgba(0, 210, 100, 0.15) !important;
+      border-color: $brand-green !important;
+      color: $brand-dark !important;
+    }
+  }
+
+  // FIX: feedbackYesNoBtnNo — was red tones. Brand stone used (§2.1)
+  .feedbackYesNoBtnNo {
+    &:hover { border-color: $destructive-border; color: $destructive; background: $destructive-bg; }
+    &.feedbackYesNoBtnActive {
+      background: $destructive-bg !important;
+      border-color: $destructive-border !important;
+      color: $destructive !important;
+    }
+  }
+
+  // Agree / Disagree (Likert)
+  .feedbackLikert { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+
+  .feedbackLikertBtn {
+    padding: 0.35rem 0.7rem;
+    border: 1px solid $border;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: $white;
+    color: $muted;
+    font-family: inherit;
+    transition: all 0.18s;
+    white-space: nowrap;
+    &:hover { border-color: $brand-green; color: $brand-dark; background: $green-bg; }
+  }
+
+  // FIX: uses brand Classic green #00D264 (was #00A859)
+  .feedbackLikertBtnActive {
+    background: $brand-green !important;
+    color: $white !important;
+    border-color: $brand-green !important;
+    box-shadow: 0 2px 6px rgba(0, 210, 100, 0.3);
+  }
+
+  // Star rating
+  .feedbackRating { display: flex; align-items: center; gap: 0.35rem; }
+
+  .feedbackStar {
+    font-size: 1.6rem;
+    line-height: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $gray-200;
+    padding: 0;
+    transition: color 0.15s, transform 0.12s;
+    font-family: inherit;
+    &:hover { color: $amber; transform: scale(1.15); }
+  }
+
+  .feedbackStarActive { color: $amber !important; }
+
+  .feedbackRatingLabel {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: $muted;
+    margin-left: 0.35rem;
+    min-width: 55px;
+  }
+
+  // Remark textarea
+  .feedbackRemarkInput {
+    width: 100%;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid $border;
+    border-radius: 7px;
+    font-size: 0.8rem;
+    font-family: "Inter", sans-serif;
+    color: $text;
+    background: $white;
+    resize: vertical;
+    min-height: 72px;
+    box-sizing: border-box;
+    line-height: 1.5;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    &:hover  { border-color: $brand-green; }
+    &:focus  { border-color: $brand-green; box-shadow: 0 0 0 3px $green-ring; outline: none; }
+    &::placeholder { color: #9ca3af; }
+  }
+
+  .feedbackRequiredHint {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.725rem;
+    color: darken($amber, 20%);
+    background: $amber-bg;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 6px;
+    padding: 0.4rem 0.65rem;
+    margin-top: 0.25rem;
+  }
+
+  .feedbackSubmitBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1.25rem;
+    background: $brand-dark;
+    color: $white;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+    &:hover:not(:disabled)  { background: darken($brand-dark, 8%); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 70, 50, 0.35); }
+    &:active:not(:disabled) { transform: translateY(0); }
+    &:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+  }
+
+  // ── Feedback view section ─────────────────────────────────
+
+  .feedbackViewSection {
+    margin-top: 1.2rem;
+    background: $green-bg;
+    border: 1px solid rgba(0, 210, 100, 0.35);
+    border-radius: 7px;
+    overflow: hidden;
+  }
+
+  .feedbackViewHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+    background: linear-gradient(135deg, $brand-dark 0%, $brand-green 100%);
+    border-radius: 6px 6px 0 0;
+    &:hover { opacity: 0.95; }
+
+    .feedbackViewTitle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: $white;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      flex: 1;
+    }
+
+    .feedbackViewToggleIcon {
+      color: $white;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+      &.collapsed { transform: rotate(-90deg); }
+    }
+  }
+
+  .feedbackViewList {
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    animation: slideIn 0.2s ease;
+  }
+
+  .feedbackViewEntry {
+    padding: 0.75rem;
+    background: $white;
+    border: 1px solid rgba(0, 210, 100, 0.3);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 70, 50, 0.08);
+    transition: all 0.18s ease;
+    &:hover { border-color: $brand-green; box-shadow: 0 2px 6px rgba(0, 70, 50, 0.12); }
+  }
+
+  .feedbackViewEntryHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .feedbackMilestoneBadgeSmall {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.55rem;
+    background: $green-bg;
+    color: $brand-dark;
+    border: 1px solid rgba(0, 210, 100, 0.4);
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+
+  .feedbackViewEntryMeta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+    color: $muted;
+    flex-shrink: 0;
+    .feedbackMetaSeparator { color: $gray-200; }
+  }
+
+  .feedbackViewAnswers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .feedbackViewAnswer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.75rem;
+    background: $gray-50;
+    border: 1px solid $border;
+    border-radius: 8px;
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      border-color: rgba(0, 168, 89, 0.45);
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 70, 50, 0.08);
+    }
+  }
+
+  .feedbackViewQuestionRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .feedbackViewQBadge {
+    min-width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: $gray-200;
+    color: $gray-700;
+    font-size: 0.68rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .feedbackViewQText {
+    font-weight: 700;
+    color: $gray-700;
+    font-size: 0.79rem;
+    line-height: 1.45;
+  }
+
+  .feedbackViewAnswerRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-left: 1.7rem;
+  }
+
+  .feedbackViewABadge {
+    flex-shrink: 0;
+    padding: 0.18rem 0.45rem;
+    border-radius: 999px;
+    background: $green-bg;
+    color: $brand-dark;
+    font-size: 0.65rem;
+    font-weight: 800;
+  }
+
+  .feedbackViewAText {
+    flex: 1;
+    color: $brand-dark;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.5;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+
+  .feedbackNoSubmissions {
+    padding: 0.75rem;
+    background: $gray-50;
+    border: 1px solid $border;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.72rem;
+    color: $muted;
+    font-style: italic;
+  }
+
+  // ── Responsive ────────────────────────────────────────────
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 0.625rem;
+    .filterGroup      { flex-direction: column; }
+    .filterWrap       { max-width: 100%; }
+    .actionBtns       { flex-wrap: wrap; }
+    .drawerBody       { padding: 0.75rem; }
+    .drawerHeader     { padding: 0.75rem 0.875rem; }
+    .infoStrip        { grid-template-columns: 1fr 1fr; }
+    .meetingCardsGrid { grid-template-columns: 1fr 1fr; }
+    .dateEditFields   { grid-template-columns: 1fr; }
+    .locationScopeBadge { display: none; }
+    .feedbackLikert   { gap: 0.25rem; }
+    .feedbackLikertBtn { padding: 0.3rem 0.5rem; font-size: 0.68rem; }
+    .feedbackYesNoBtn  { padding: 0.4rem 0.75rem; }
+    .historyRecalcDates { .historyRecalcGrid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); } }
+    .feedbackViewAnswers { gap: 0.5rem; }
+    .feedbackViewAnswer { padding: 0.65rem; }
+    .feedbackViewAnswerRow { padding-left: 0; flex-direction: column; gap: 0.35rem; }
+  }
+
+  button:focus-visible,
+  select:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible { outline: 2px solid $brand-green; outline-offset: 2px; }
+}
+
+// ── Feedback form radio/star controls ──────────────────────────────
+.feedbackRadioGroup {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.feedbackRadioOption {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.48rem 0.8rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s, color 0.18s, box-shadow 0.18s;
+  user-select: none;
+  position: relative;
+  box-sizing: border-box;
+
+  &:hover {
+    border-color: #00d264;
+    background: #ecfdf5;
+    color: #004632;
+  }
+}
+
+.feedbackRadioOptionActive {
+  border-color: #00d264 !important;
+  background: #00d264 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 210, 100, 0.28);
+}
+
+.feedbackRadioInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+.feedbackRadioDot {
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  border: 2px solid currentColor;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 3px #ffffff;
+  flex-shrink: 0;
+}
+
+.feedbackRadioOptionActive .feedbackRadioDot {
+  background: #004632;
+  border-color: #ffffff;
+}
+
+.feedbackRating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.feedbackStar {
+  font-size: 1.65rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #d1d5db;
+  padding: 0 0.05rem;
+  transition: color 0.15s, transform 0.12s;
+  font-family: inherit;
+
+  &:hover {
+    color: #f59e0b;
+    transform: scale(1.12);
+  }
+}
+
+.feedbackStarActive {
+  color: #f59e0b !important;
+}
