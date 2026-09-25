@@ -14,13 +14,14 @@ jobs:
 
     steps:
       # =========================================================
-      # Checkout
+      # 1. Checkout Repository
       # =========================================================
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       # =========================================================
-      # Node 18 required for SPFx 1.20
+      # 2. Setup Node.js
+      # SPFx 1.20 requires Node 18
       # =========================================================
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -29,7 +30,7 @@ jobs:
           cache: npm
 
       # =========================================================
-      # Verify Node
+      # 3. Verify Node/NPM Version
       # =========================================================
       - name: Verify Node Environment
         run: |
@@ -40,13 +41,14 @@ jobs:
           npm -v
 
       # =========================================================
-      # Install dependencies
+      # 4. Install Dependencies
+      # Keeps existing dependency versions
       # =========================================================
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       # =========================================================
-      # Build SPFx
+      # 5. Build and Package SPFx
       # =========================================================
       - name: Bundle and Package
         run: |
@@ -54,15 +56,15 @@ jobs:
           npx gulp package-solution --ship
 
       # =========================================================
-      # Verify generated package
+      # 6. Verify SPPKG
       # =========================================================
       - name: Verify SPPKG
         run: |
-          echo "Generated SPPKG:"
+          echo "Generated SPPKG files:"
           ls -lah sharepoint/solution
 
       # =========================================================
-      # Login to Microsoft 365
+      # 7. Login to Microsoft 365
       # =========================================================
       - name: Login to Microsoft 365
         uses: pnp/action-cli-login@v4
@@ -73,47 +75,53 @@ jobs:
           TENANT: ${{ secrets.TENANT_ID }}
 
       # =========================================================
-      # MASTER -> DEV
+      # 8. MASTER Branch -> DEV
       # =========================================================
       - name: Deploy CMS to DEV
         if: github.ref == 'refs/heads/master'
         id: devDeploy
         uses: pnp/action-cli-deploy@v6
         with:
-          APP_FILE_PATH: sharepoint/solution/buddy-app.sppkg
+          APP_FILE_PATH: sharepoint/solution/cms.sppkg
           SCOPE: sitecollection
           SITE_COLLECTION_URL: https://credentinfotec.sharepoint.com/sites/IntranetPortal-Dev
           SKIP_FEATURE_DEPLOYMENT: true
           OVERWRITE: true
 
       # =========================================================
-      # MAIN -> PROD
+      # 9. MAIN Branch -> PROD
       # =========================================================
       - name: Deploy CMS to PROD
         if: github.ref == 'refs/heads/main'
         id: prodDeploy
         uses: pnp/action-cli-deploy@v6
         with:
-          APP_FILE_PATH: sharepoint/solution/buddy-app.sppkg
+          APP_FILE_PATH: sharepoint/solution/cms.sppkg
           SCOPE: sitecollection
           SITE_COLLECTION_URL: https://credentinfotec.sharepoint.com/sites/NeulandLabs
           SKIP_FEATURE_DEPLOYMENT: true
           OVERWRITE: true
 
       # =========================================================
-      # DEV Result
+      # 10. DEV Deployment Result
       # =========================================================
       - name: DEV Deployment Result
         if: github.ref == 'refs/heads/master'
         run: |
+          echo "======================================"
           echo "DEV Deployment Completed"
+          echo "Site: IntranetPortal-Dev"
           echo "App ID: ${{ steps.devDeploy.outputs.APP_ID }}"
+          echo "======================================"
 
       # =========================================================
-      # PROD Result
+      # 11. PROD Deployment Result
       # =========================================================
       - name: PROD Deployment Result
         if: github.ref == 'refs/heads/main'
         run: |
+          echo "======================================"
           echo "PROD Deployment Completed"
+          echo "Site: NeulandLabs"
           echo "App ID: ${{ steps.prodDeploy.outputs.APP_ID }}"
+          echo "======================================"
