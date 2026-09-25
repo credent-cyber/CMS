@@ -1,54 +1,119 @@
-name: Deploy Solution to Dev Environment CMS
+name: Deploy Solution CMS
 
 on:
   push:
     branches:
+      - master
       - main
-      # - master
+
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      # =========================================================
+      # Checkout
+      # =========================================================
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+      # =========================================================
+      # Node 18 required for SPFx 1.20
+      # =========================================================
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.x
-          cache: 'npm'
+          node-version: '18.20.8'
+          cache: npm
 
-      - name: Install Gulp CLI
-        run: npm install --global gulp-cli
+      # =========================================================
+      # Verify Node
+      # =========================================================
+      - name: Verify Node Environment
+        run: |
+          echo "Node Version:"
+          node -v
 
-      - name: Run npm ci
+          echo "NPM Version:"
+          npm -v
+
+      # =========================================================
+      # Install dependencies
+      # =========================================================
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Bundle & Package
+      # =========================================================
+      # Build SPFx
+      # =========================================================
+      - name: Bundle and Package
         run: |
-          gulp bundle --ship
-          gulp package-solution --ship
+          npx gulp bundle --ship
+          npx gulp package-solution --ship
 
-      - name: Debug File Path
-        run: ls -R sharepoint/solution
+      # =========================================================
+      # Verify generated package
+      # =========================================================
+      - name: Verify SPPKG
+        run: |
+          echo "Generated SPPKG:"
+          ls -lah sharepoint/solution
 
-      - name: CLI for Microsoft 365 Login
-        uses: pnp/action-cli-login@v2
+      # =========================================================
+      # Login to Microsoft 365
+      # =========================================================
+      - name: Login to Microsoft 365
+        uses: pnp/action-cli-login@v4
         with:
           CERTIFICATE_ENCODED: ${{ secrets.CERTIFICATE_ENCODED }}
           CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
-          TENANT: ${{ secrets.TENANT_ID }}
           APP_ID: ${{ secrets.APP_ID }}
+          TENANT: ${{ secrets.TENANT_ID }}
 
-      - name: Deploy App to DEV Site Collection App Catalog
+      # =========================================================
+      # MASTER -> DEV
+      # =========================================================
+      - name: Deploy CMS to DEV
+        if: github.ref == 'refs/heads/master'
         id: devDeploy
-        uses: pnp/action-cli-deploy@v4
+        uses: pnp/action-cli-deploy@v6
         with:
-          APP_FILE_PATH: sharepoint/solution/cms.sppkg
+          APP_FILE_PATH: sharepoint/solution/buddy-app.sppkg
+          SCOPE: sitecollection
+          SITE_COLLECTION_URL: https://credentinfotec.sharepoint.com/sites/IntranetPortal-Dev
           SKIP_FEATURE_DEPLOYMENT: true
           OVERWRITE: true
+
+      # =========================================================
+      # MAIN -> PROD
+      # =========================================================
+      - name: Deploy CMS to PROD
+        if: github.ref == 'refs/heads/main'
+        id: prodDeploy
+        uses: pnp/action-cli-deploy@v6
+        with:
+          APP_FILE_PATH: sharepoint/solution/buddy-app.sppkg
           SCOPE: sitecollection
-          # SITE_COLLECTION_URL: https://credentinfotec.sharepoint.com/sites/IntranetPortal-Dev
           SITE_COLLECTION_URL: https://credentinfotec.sharepoint.com/sites/NeulandLabs
+          SKIP_FEATURE_DEPLOYMENT: true
+          OVERWRITE: true
+
+      # =========================================================
+      # DEV Result
+      # =========================================================
+      - name: DEV Deployment Result
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo "DEV Deployment Completed"
+          echo "App ID: ${{ steps.devDeploy.outputs.APP_ID }}"
+
+      # =========================================================
+      # PROD Result
+      # =========================================================
+      - name: PROD Deployment Result
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "PROD Deployment Completed"
+          echo "App ID: ${{ steps.prodDeploy.outputs.APP_ID }}"
